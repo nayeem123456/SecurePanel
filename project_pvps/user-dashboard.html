@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="User Dashboard - View your palm vein payment account">
+    <title>User Dashboard - Palm Vein Payment System</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/navigation.css">
+
+    <!-- Theme Script (loaded early to prevent flash) -->
+    <script src="js/theme.js"></script>
+
+    <style>
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+            color: var(--color-secondary);
+            padding: var(--spacing-lg) 0;
+        }
+
+        .dashboard-header h1 {
+            color: var(--color-secondary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .info-item {
+            text-align: center;
+            padding: var(--spacing-md);
+            background: var(--color-grey-100);
+            border-radius: var(--radius-md);
+        }
+
+        .info-label {
+            font-size: var(--font-size-small);
+            color: var(--color-grey-600);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .info-value {
+            font-size: var(--font-size-large);
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="header-logo">
+                <div class="biometric-logo logo-medium">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M50 20 Q45 25, 45 35 L45 60 Q45 65, 50 70 Q55 65, 55 60 L55 35 Q55 25, 50 20 M35 30 Q30 32, 30 40 L30 55 Q30 60, 35 62 Q40 60, 40 55 L40 40 Q40 32, 35 30 M65 30 Q70 32, 70 40 L70 55 Q70 60, 65 62 Q60 60, 60 55 L60 40 Q60 32, 65 30 M25 45 Q22 47, 22 52 L22 58 Q22 61, 25 63 Q28 61, 28 58 L28 52 Q28 47, 25 45 M75 45 Q78 47, 78 52 L78 58 Q78 61, 75 63 Q72 61, 72 58 L72 52 Q72 47, 75 45"
+                            fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        <circle cx="50" cy="50" r="42" class="scan-ring" stroke-dasharray="8 4" />
+                    </svg>
+                </div>
+                <h1 class="header-title">Palm Vein Payment System</h1>
+            </a>
+
+            <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+                <span>☰</span>
+            </button>
+
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About System</a>
+                <a href="security.html" class="nav-link">Security</a>
+                <a href="user-dashboard.html" class="nav-link active">Dashboard</a>
+                <a href="#" id="logoutBtn" class="nav-link">Logout</a>
+                <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Dashboard Header -->
+    <section class="dashboard-header">
+        <div class="container">
+            <h1>Welcome, <span id="welcomeName">User</span></h1>
+            <p>View your account information and transaction history</p>
+        </div>
+    </section>
+
+    <!-- Main Dashboard -->
+    <main class="section" id="userDashboard">
+        <div class="container">
+
+            <!-- Profile Summary -->
+            <div class="card mb-xl">
+                <div class="card-header">
+                    <h2 class="card-title">Account Information</h2>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Full Name</div>
+                        <div class="info-value" id="userFullName">-</div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">Phone Number</div>
+                        <div class="info-value" id="userPhone">-</div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">Account ID</div>
+                        <div class="info-value" id="userAccount">-</div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">Enrollment Date</div>
+                        <div class="info-value" id="enrollmentDate">-</div>
+                    </div>
+                </div>
+
+                <div class="alert alert-success mt-lg">
+                    <strong>✓ Biometric Status:</strong> Palm vein template enrolled and active
+                </div>
+
+                <div class="alert alert-warning mt-md">
+                    <small><strong>Note:</strong> Profile updates require bank authorization and are not editable in
+                        this prototype. Biometric updates must be performed at the bank with physical
+                        verification.</small>
+                </div>
+            </div>
+
+            <!-- Transaction History -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Transaction History</h2>
+                    <p class="text-muted">Recent payment authentication requests</p>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Transaction ID</th>
+                                <th>Merchant</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Date & Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionTableBody">
+                            <tr>
+                                <td colspan="5" style="text-align: center; padding: var(--spacing-lg);">
+                                    Loading transactions...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Important Note -->
+            <div class="alert alert-info mt-xl">
+                <h4>Read-Only Dashboard</h4>
+                <p>
+                    <strong>Note:</strong> As a user, you do not initiate payments from this dashboard.
+                    Merchants initiate payment requests, which you authenticate using your palm vein scan.
+                    All authenticated transactions will appear in your history above.
+                </p>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div class="biometric-logo logo-small">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M50 20 Q45 25, 45 35 L45 60 Q45 65, 50 70 Q55 65, 55 60 L55 35 Q55 25, 50 20 M35 30 Q30 32, 30 40 L30 55 Q30 60, 35 62 Q40 60, 40 55 L40 40 Q40 32, 35 30 M65 30 Q70 32, 70 40 L70 55 Q70 60, 65 62 Q60 60, 60 55 L60 40 Q60 32, 65 30 M25 45 Q22 47, 22 52 L22 58 Q22 61, 25 63 Q28 61, 28 58 L28 52 Q28 47, 25 45 M75 45 Q78 47, 78 52 L78 58 Q78 61, 75 63 Q72 61, 72 58 L72 52 Q72 47, 75 45"
+                            fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        <circle cx="50" cy="50" r="42" class="scan-ring" stroke-dasharray="8 4" />
+                    </svg>
+                </div>
+            </div>
+
+            <p class="footer-text">
+                <strong>Palm Vein Payment System</strong><br>
+                Major Project - Bank Biometric Payment Portal
+            </p>
+
+            <div class="footer-copyright">
+                &copy; 2024 Palm Vein Payment System. Academic Project - For Educational Purposes Only.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/common.js"></script>
+    <script src="js/user-flow.js"></script>
+</body>
+
+</html>

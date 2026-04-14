@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Palm Vein Payment System - A secure bank-controlled biometric payment portal using palm vein authentication">
+  <title>Palm Vein Payment System - Home</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/navigation.css">
+
+  <!-- Theme Script (loaded early to prevent flash) -->
+  <script src="js/theme.js"></script>
+
+  <style>
+    /* Page-specific styles */
+    .hero {
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+      color: var(--color-secondary);
+      padding: var(--spacing-xxl) 0;
+      text-align: center;
+    }
+
+    .hero-logo {
+      margin: 0 auto var(--spacing-lg);
+    }
+
+    .hero-title {
+      color: var(--color-secondary);
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .hero-subtitle {
+      font-size: var(--font-size-xlarge);
+      color: var(--color-grey-200);
+      margin-bottom: var(--spacing-md);
+      font-weight: 500;
+    }
+
+    .hero-description {
+      max-width: 700px;
+      margin: 0 auto var(--spacing-xl);
+      font-size: var(--font-size-large);
+      color: var(--color-grey-300);
+      line-height: 1.8;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: var(--spacing-md);
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: var(--spacing-xl);
+    }
+
+    .workflow-section {
+      background-color: var(--color-secondary);
+    }
+
+    .workflow-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: var(--spacing-lg);
+      margin-top: var(--spacing-xl);
+    }
+
+    .workflow-step {
+      text-align: center;
+      padding: var(--spacing-lg);
+      background: var(--color-grey-100);
+      border-radius: var(--radius-lg);
+      transition: all var(--transition-base);
+    }
+
+    .workflow-step:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .workflow-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      background-color: var(--color-primary);
+      color: var(--color-secondary);
+      border-radius: 50%;
+      font-size: var(--font-size-xlarge);
+      font-weight: 700;
+      margin-bottom: var(--spacing-md);
+    }
+
+    .workflow-step h3 {
+      font-size: var(--font-size-large);
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .workflow-step p {
+      color: var(--color-grey-600);
+      font-size: var(--font-size-small);
+    }
+
+    .features {
+      background: linear-gradient(to bottom, var(--color-grey-100), var(--color-secondary));
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--spacing-lg);
+      margin-top: var(--spacing-xl);
+    }
+
+    .feature-card {
+      background: var(--color-secondary);
+      padding: var(--spacing-lg);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      border-left: 4px solid var(--color-primary);
+    }
+
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: var(--spacing-md);
+    }
+
+    .feature-card h3 {
+      margin-bottom: var(--spacing-sm);
+    }
+
+    @media (max-width: 768px) {
+      .hero-buttons {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .hero-buttons .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container">
+      <a href="index.html" class="header-logo">
+        <div class="biometric-logo logo-medium">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <!-- Palm Icon -->
+            <path
+              d="M50 20 Q45 25, 45 35 L45 60 Q45 65, 50 70 Q55 65, 55 60 L55 35 Q55 25, 50 20 M35 30 Q30 32, 30 40 L30 55 Q30 60, 35 62 Q40 60, 40 55 L40 40 Q40 32, 35 30 M65 30 Q70 32, 70 40 L70 55 Q70 60, 65 62 Q60 60, 60 55 L60 40 Q60 32, 65 30 M25 45 Q22 47, 22 52 L22 58 Q22 61, 25 63 Q28 61, 28 58 L28 52 Q28 47, 25 45 M75 45 Q78 47, 78 52 L78 58 Q78 61, 75 63 Q72 61, 72 58 L72 52 Q72 47, 75 45"
+              fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <!-- Scanning Ring -->
+            <circle cx="50" cy="50" r="42" class="scan-ring" stroke-dasharray="8 4" />
+          </svg>
+        </div>
+        <h1 class="header-title">Palm Vein Payment System</h1>
+      </a>
+
+      <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+        <span>☰</span>
+      </button>
+
+      <nav class="nav">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="about.html" class="nav-link">About System</a>
+        <a href="security.html" class="nav-link">Security</a>
+        <a href="bank-enrollment.html" class="nav-link">Bank Enrollment</a>
+        <a href="user-login.html" class="nav-link">User Login</a>
+        <a href="merchant-login.html" class="nav-link">Merchant Login</a>
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-logo">
+        <div class="biometric-logo logo-large">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <!-- Palm Icon -->
+            <path
+              d="M50 20 Q45 25, 45 35 L45 60 Q45 65, 50 70 Q55 65, 55 60 L55 35 Q55 25, 50 20 M35 30 Q30 32, 30 40 L30 55 Q30 60, 35 62 Q40 60, 40 55 L40 40 Q40 32, 35 30 M65 30 Q70 32, 70 40 L70 55 Q70 60, 65 62 Q60 60, 60 55 L60 40 Q60 32, 65 30 M25 45 Q22 47, 22 52 L22 58 Q22 61, 25 63 Q28 61, 28 58 L28 52 Q28 47, 25 45 M75 45 Q78 47, 78 52 L78 58 Q78 61, 75 63 Q72 61, 72 58 L72 52 Q72 47, 75 45"
+              fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <!-- Scanning Ring -->
+            <circle cx="50" cy="50" r="42" class="scan-ring" stroke-dasharray="8 4" />
+          </svg>
+        </div>
+      </div>
+
+      <h1 class="hero-title">Palm Vein Payment System</h1>
+      <p class="hero-subtitle">A Bank-Controlled Biometric Payment Portal</p>
+
+      <p class="hero-description">
+        A secure, contactless payment authentication system utilizing palm vein biometric technology.
+        This platform enables seamless merchant-initiated transactions with robust user authentication
+        through advanced biometric verification.
+      </p>
+
+      <div class="hero-buttons">
+        <a href="bank-enrollment.html" class="btn btn-primary btn-large">Bank Enrollment</a>
+        <a href="user-login.html" class="btn btn-primary btn-large">User Login</a>
+        <a href="merchant-login.html" class="btn btn-primary btn-large">Merchant Login</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Workflow Section -->
+  <section class="section workflow-section">
+    <div class="container">
+      <h2 class="text-center">How It Works</h2>
+      <p class="text-center text-muted mb-lg">Complete Payment Workflow in Four Simple Steps</p>
+
+      <div class="workflow-steps">
+        <div class="workflow-step">
+          <div class="workflow-number">1</div>
+          <h3>Bank Enrollment</h3>
+          <p>
+            Customer visits bank branch and registers personal details.
+            In real systems, enrollment occurs at physical bank locations with specialized equipment.
+          </p>
+        </div>
+
+        <div class="workflow-step">
+          <div class="workflow-number">2</div>
+          <h3>Palm Vein Registration</h3>
+          <p>
+            Biometric template is captured using near-infrared imaging.
+            Only the encrypted template is stored—no raw palm images are retained.
+          </p>
+        </div>
+
+        <div class="workflow-step">
+          <div class="workflow-number">3</div>
+          <h3>Merchant-Initiated Payment</h3>
+          <p>
+            Merchant enters customer's phone number and transaction amount.
+            Payment request is sent to the user for authentication.
+          </p>
+        </div>
+
+        <div class="workflow-step">
+          <div class="workflow-number">4</div>
+          <h3>User Authentication</h3>
+          <p>
+            User authenticates payment by scanning their palm.
+            Biometric verification confirms identity and approves transaction.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="section features">
+    <div class="container">
+      <h2 class="text-center">Key Features</h2>
+      <p class="text-center text-muted mb-lg">Advanced Security & Seamless User Experience</p>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h3>Enhanced Security</h3>
+          <p>
+            Palm vein patterns are internal biometrics, nearly impossible to replicate or forge.
+            Provides superior security compared to fingerprints or facial recognition.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🚫</div>
+          <h3>Contactless Authentication</h3>
+          <p>
+            No physical contact required. Hygienic and convenient for users.
+            Scans vein patterns beneath the skin using infrared technology.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>Fast Transactions</h3>
+          <p>
+            Quick biometric verification enables instant payment approval.
+            No need for cards, PINs, or OTPs—just scan and pay.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🏦</div>
+          <h3>Bank-Controlled</h3>
+          <p>
+            All enrollment and data management handled by banking institutions.
+            Ensures regulatory compliance and data protection standards.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🔐</div>
+          <h3>Template-Based Storage</h3>
+          <p>
+            Only encrypted biometric templates are stored—never raw images.
+            Protects user privacy and prevents biometric data theft.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📱</div>
+          <h3>User Verification</h3>
+          <p>
+            Every transaction requires explicit user authentication.
+            Prevents unauthorized payments and fraud.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Academic Disclaimer -->
+  <section class="section bg-grey">
+    <div class="container-narrow">
+      <div class="alert alert-info">
+        <strong>Academic Project Disclaimer:</strong> This is a frontend demonstration developed for educational
+        purposes.
+        No actual biometric scanning, backend processing, or real payment transactions occur.
+        All data is stored locally in the browser for simulation purposes only.
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <div class="biometric-logo logo-small">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <!-- Palm Icon -->
+            <path
+              d="M50 20 Q45 25, 45 35 L45 60 Q45 65, 50 70 Q55 65, 55 60 L55 35 Q55 25, 50 20 M35 30 Q30 32, 30 40 L30 55 Q30 60, 35 62 Q40 60, 40 55 L40 40 Q40 32, 35 30 M65 30 Q70 32, 70 40 L70 55 Q70 60, 65 62 Q60 60, 60 55 L60 40 Q60 32, 65 30 M25 45 Q22 47, 22 52 L22 58 Q22 61, 25 63 Q28 61, 28 58 L28 52 Q28 47, 25 45 M75 45 Q78 47, 78 52 L78 58 Q78 61, 75 63 Q72 61, 72 58 L72 52 Q72 47, 75 45"
+              fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <!-- Scanning Ring -->
+            <circle cx="50" cy="50" r="42" class="scan-ring" stroke-dasharray="8 4" />
+          </svg>
+        </div>
+      </div>
+
+      <p class="footer-text">
+        <strong>Palm Vein Payment System</strong><br>
+        Major Project - Bank Biometric Payment Portal
+      </p>
+
+      <p class="footer-text">
+        A demonstration of secure palm vein biometric authentication<br>
+        for contactless payment processing in banking systems.
+      </p>
+
+      <div class="footer-copyright">
+        &copy; 2024 Palm Vein Payment System. Academic Project - For Educational Purposes Only.
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="js/common.js"></script>
+</body>
+
+</html>

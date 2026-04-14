@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="About Palm Vein Payment System - Learn about our biometric payment technology">
+    <title>About System - Palm Vein Payment System</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/navigation.css">
+
+    <!-- Theme Script (loaded early to prevent flash) -->
+    <script src="js/theme.js"></script>
+
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+            color: var(--color-secondary);
+            padding: var(--spacing-xl) 0;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            color: var(--color-secondary);
+        }
+
+        .content-section {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .content-section h2 {
+            border-bottom: 3px solid var(--color-primary);
+            padding-bottom: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .tech-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tech-list li {
+            padding: var(--spacing-sm) 0;
+            padding-left: var(--spacing-lg);
+            position: relative;
+        }
+
+        .tech-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--color-success);
+            font-weight: 700;
+            font-size: var(--font-size-large);
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary));
+            color: var(--color-secondary);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .highlight-box h3 {
+            color: var(--color-secondary);
+        }
+
+        .comparison-table {
+            margin: var(--spacing-lg) 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="header-logo">
+                <div class="biometric-logo logo-medium">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M50 20 Q45 25, 45 35 L45 60 Q45 65, 50 70 Q55 65, 55 60 L55 35 Q55 25, 50 20 M35 30 Q30 32, 30 40 L30 55 Q30 60, 35 62 Q40 60, 40 55 L40 40 Q40 32, 35 30 M65 30 Q70 32, 70 40 L70 55 Q70 60, 65 62 Q60 60, 60 55 L60 40 Q60 32, 65 30 M25 45 Q22 47, 22 52 L22 58 Q22 61, 25 63 Q28 61, 28 58 L28 52 Q28 47, 25 45 M75 45 Q78 47, 78 52 L78 58 Q78 61, 75 63 Q72 61, 72 58 L72 52 Q72 47, 75 45"
+                            fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        <circle cx="50" cy="50" r="42" class="scan-ring" stroke-dasharray="8 4" />
+                    </svg>
+                </div>
+                <h1 class="header-title">Palm Vein Payment System</h1>
+            </a>
+
+            <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+                <span>☰</span>
+            </button>
+
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link active">About System</a>
+                <a href="security.html" class="nav-link">Security</a>
+                <a href="bank-enrollment.html" class="nav-link">Bank Enrollment</a>
+                <a href="user-login.html" class="nav-link">User Login</a>
+                <a href="merchant-login.html" class="nav-link">Merchant Login</a>
+                <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>About the System</h1>
+            <p>Understanding Palm Vein Biometric Payment Technology</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="section">
+        <div class="container-narrow">
+
+            <!-- Problem Statement -->
+            <div class="content-section">
+                <h2>Problem Statement</h2>
+                <p>
+                    Traditional payment methods face several critical challenges:
+                </p>
+                <ul>
+                    <li><strong>Card Theft & Fraud:</strong> Physical cards can be stolen, cloned, or skimmed, leading
+                        to unauthorized transactions.</li>
+                    <li><strong>PIN Compromise:</strong> PINs and passwords can be forgotten, guessed, or intercepted
+                        through phishing attacks.</li>
+                    <li><strong>Identity Verification:</strong> Current systems struggle to definitively verify that the
+                        person making a payment is the actual account holder.</li>
+                    <li><strong>Hygiene Concerns:</strong> Contact-based biometrics (fingerprints) and shared PIN pads
+                        raise health and safety concerns.</li>
+                </ul>
+                <p>
+                    These vulnerabilities necessitate a more secure, user-friendly, and hygienic payment authentication
+                    method.
+                </p>
+            </div>
+
+            <!-- Objective -->
+            <div class="content-section">
+                <h2>Objective</h2>
+                <p>
+                    The Palm Vein Payment System aims to:
+                </p>
+                <ul>
+                    <li>Provide <strong>highly secure biometric authentication</strong> for payment transactions</li>
+                    <li>Eliminate the need for physical cards, PINs, and OTPs</li>
+                    <li>Enable <strong>contactless verification</strong> for enhanced hygiene and user comfort</li>
+                    <li>Create a <strong>bank-controlled platform</strong> ensuring regulatory compliance and data
+                        protection</li>
+                    <li>Demonstrate the feasibility of palm vein technology in real-world payment scenarios</li>
+                    <li>Develop an intuitive user interface for both customers and merchants</li>
+                </ul>
+            </div>
+
+            <!-- Why Palm Vein Biometrics -->
+            <div class="content-section">
+                <h2>Why Palm Vein Biometrics?</h2>
+
+                <div class="highlight-box">
+                    <h3>Superior Security & Privacy</h3>
+                    <p>
+                        Palm vein patterns are <strong>internal biometrics</strong>—located beneath the skin
+                        surface—making them
+                        virtually impossible to replicate, forge, or steal. Unlike fingerprints or facial features, palm
+                        veins
+                        cannot be photographed or copied from objects touched by the user.
+                    </p>
+                </div>
+
+                <p>Key advantages of palm vein technology:</p>
+
+                <table class="table comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Palm Vein</th>
+                            <th>Fingerprint</th>
+                            <th>Facial Recognition</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Forgery Resistance</td>
+                            <td><span class="badge badge-success">Excellent</span></td>
+                            <td><span class="badge badge-warning">Moderate</span></td>
+                            <td><span class="badge badge-warning">Moderate</span></td>
+                        </tr>
+                        <tr>
+                            <td>Contact Required</td>
+                            <td><span class="badge badge-success">No</span></td>
+                            <td><span class="badge badge-error">Yes</span></td>
+                            <td><span class="badge badge-success">No</span></td>
+                        </tr>
+                        <tr>
+                            <td>Environmental Factors</td>
+                            <td><span class="badge badge-success">Minimal</span></td>
+                            <td><span class="badge badge-error">High</span></td>
+                            <td><span class="badge badge-warning">Moderate</span></td>
+                        </tr>
+                        <tr>
+                            <td>Uniqueness</td>
+                            <td><span class="badge badge-success">Very High</span></td>
+                            <td><span class="badge badge-info">High</span></td>
+                            <td><span class="badge badge-info">Moderate</span></td>
+                        </tr>
+                        <tr>
+                            <td>Privacy Protection</td>
+                            <td><span class="badge badge-success">Excellent</span></td>
+                            <td><span class="badge badge-info">Good</span></td>
+                            <td><span class="badge badge-warning">Moderate</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p>
+                    <strong>Additional Benefits:</strong>
+                </p>
+                <ul>
+                    <li><strong>Liveness Detection:</strong> Requires blood flow for detection, preventing use of
+                        severed limbs or fake replicas</li>
+                    <li><strong>Non-intrusive:</strong> Users simply place their hand above the scanner—no pressure or
+                        contact needed</li>
+                    <li><strong>Stable Over Time:</strong> Vein patterns remain consistent throughout a person's life
+                    </li>
+                    <li><strong>Low Error Rates:</strong> False acceptance and false rejection rates are significantly
+                        lower than other biometric methods</li>
+                </ul>
+            </div>
+
+            <!-- Technologies Used -->
+            <div class="content-section">
+                <h2>Technologies Used</h2>
+                <p>
+                    This demonstration showcases the frontend interface for the Palm Vein Payment System.
+                    In a real-world implementation, the following technologies would be employed:
+                </p>
+
+                <h4 class="mt-lg">Frontend (Current Implementation)</h4>
+                <ul class="tech-list">
+                    <li>HTML5 for semantic structure</li>
+                    <li>CSS3 with custom properties for responsive design</li>
+                    <li>Vanilla JavaScript for interactivity and state management</li>
+                    <li>LocalStorage API for demo data persistence</li>
+                </ul>
+
+                <h4 class="mt-lg">Backend (Conceptual)</h4>
+                <ul class="tech-list">
+                    <li>RESTful API for client-server communication</li>
+                    <li>Secure database for encrypted biometric template storage</li>
+                    <li>Authentication and authorization frameworks</li>
+                    <li>Transaction processing and logging systems</li>
+                </ul>
+
+                <h4 class="mt-lg">Hardware & Biometric Processing</h4>
+                <ul class="tech-list">
+                    <li>Near-infrared (NIR) imaging camera for vein capture</li>
+                    <li>Image preprocessing algorithms (noise reduction, enhancement)</li>
+                    <li>Feature extraction using machine learning models</li>
+                    <li>Template matching algorithms with threshold-based verification</li>
+                    <li>Encryption modules for secure biometric data handling</li>
+                </ul>
+            </div>
+
+            <!-- System Architecture -->
+            <div class="content-section">
+                <h2>System Architecture</h2>
+                <p>The Palm Vein Payment System follows a three-tier architecture:</p>
+
+                <div class="card mb-md">
+                    <h4>1. Presentation Layer (Frontend)</h4>
+                    <p>
+                        User and merchant interfaces providing enrollment, login, payment initiation, and authentication
+                        flows.
+                        Responsive design ensuring accessibility across devices.
+                    </p>
+                </div>
+
+                <div class="card mb-md">
+                    <h4>2. Application Layer (Backend)</h4>
+                    <p>
+                        Business logic handling user authentication, transaction processing, biometric verification
+                        requests,
+                        and communication between frontend and database. Implements security protocols and access
+                        controls.
+                    </p>
+                </div>
+
+                <div class="card mb-md">
+                    <h4>3. Data Layer (Database & Biometric Storage)</h4>
+                    <p>
+                        Secure storage of user profiles, merchant information, transaction records, and encrypted
+                        biometric templates.
+                        Implements database encryption, access logging, and backup mechanisms.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Limitations & Future Scope -->
+            <div class="content-section">
+                <h2>Limitations & Future Scope</h2>
+
+                <h4>Current Limitations</h4>
+                <ul>
+                    <li><strong>Frontend-Only Demonstration:</strong> No actual biometric scanning or backend processing
+                        implemented</li>
+                    <li><strong>Simulated Authentication:</strong> Palm scan verification uses time delays rather than
+                        real biometric matching</li>
+                    <li><strong>Local Storage:</strong> Data stored in browser localStorage; not suitable for production
+                        environments</li>
+                    <li><strong>No Hardware Integration:</strong> Requires integration with actual palm vein scanning
+                        devices for real-world use</li>
+                </ul>
+
+                <h4 class="mt-lg">Future Enhancements</h4>
+                <ul>
+                    <li><strong>Backend Development:</strong> Implement REST APIs, database systems, and server-side
+                        authentication</li>
+                    <li><strong>Real Biometric Processing:</strong> Integrate machine learning models for vein pattern
+                        extraction and matching</li>
+                    <li><strong>Hardware Integration:</strong> Connect with commercial palm vein scanners (e.g., Fujitsu
+                        PalmSecure)</li>
+                    <li><strong>Multi-Factor Authentication:</strong> Combine palm vein with additional factors like
+                        mobile OTP for enhanced security</li>
+                    <li><strong>Fraud Detection:</strong> Implement AI-based anomaly detection for suspicious
+                        transaction patterns</li>
+                    <li><strong>Mobile Application:</strong> Develop native iOS and Android apps for broader
+                        accessibility</li>
+                    <li><strong>Regulatory Compliance:</strong> Ensure adherence to GDPR, PCI-DSS, and local banking
+                        regulations</li>
+                </ul>
+            </div>
+
+            <!-- Academic Context -->
+            <div class="alert alert-info">
+                <h4>Academic Project Context</h4>
+                <p>
+                    This Palm Vein Payment System is developed as a <strong>major academic project</strong> to
+                    demonstrate
+                    the feasibility and design considerations of implementing biometric authentication in banking
+                    systems.
+                    The project focuses on user interface design, workflow planning, and system architecture
+                    conceptualization.
+                </p>
+                <p>
+                    While this demonstration simulates the complete payment flow, it does not process real biometric
+                    data
+                    or execute actual financial transactions. The goal is to showcase how such a system would operate
+                    from a user and merchant perspective.
+                </p>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div class="biometric-logo logo-small">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M50 20 Q45 25, 45 35 L45 60 Q45 65, 50 70 Q55 65, 55 60 L55 35 Q55 25, 50 20 M35 30 Q30 32, 30 40 L30 55 Q30 60, 35 62 Q40 60, 40 55 L40 40 Q40 32, 35 30 M65 30 Q70 32, 70 40 L70 55 Q70 60, 65 62 Q60 60, 60 55 L60 40 Q60 32, 65 30 M25 45 Q22 47, 22 52 L22 58 Q22 61, 25 63 Q28 61, 28 58 L28 52 Q28 47, 25 45 M75 45 Q78 47, 78 52 L78 58 Q78 61, 75 63 Q72 61, 72 58 L72 52 Q72 47, 75 45"
+                            fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        <circle cx="50" cy="50" r="42" class="scan-ring" stroke-dasharray="8 4" />
+                    </svg>
+                </div>
+            </div>
+
+            <p class="footer-text">
+                <strong>Palm Vein Payment System</strong><br>
+                Major Project - Bank Biometric Payment Portal
+            </p>
+
+            <p class="footer-text">
+                A demonstration of secure palm vein biometric authentication<br>
+                for contactless payment processing in banking systems.
+            </p>
+
+            <div class="footer-copyright">
+                &copy; 2024 Palm Vein Payment System. Academic Project - For Educational Purposes Only.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/common.js"></script>
+</body>
+
+</html>

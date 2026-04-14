@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="User Login - Palm Vein Payment System">
+    <title>User Login - Palm Vein Payment System</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/navigation.css">
+    <link rel="stylesheet" href="css/toast.css">
+
+    <!-- Theme Script (loaded early to prevent flash) -->
+    <script src="js/theme.js"></script>
+    <script src="js/toast.js"></script>
+
+    <style>
+        .login-section {
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(to bottom, var(--color-grey-100), var(--color-secondary));
+        }
+
+        .login-card {
+            max-width: 450px;
+            width: 100%;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .login-logo {
+            margin: 0 auto var(--spacing-md);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="header-logo">
+                <div class="biometric-logo logo-medium">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M50 20 Q45 25, 45 35 L45 60 Q45 65, 50 70 Q55 65, 55 60 L55 35 Q55 25, 50 20 M35 30 Q30 32, 30 40 L30 55 Q30 60, 35 62 Q40 60, 40 55 L40 40 Q40 32, 35 30 M65 30 Q70 32, 70 40 L70 55 Q70 60, 65 62 Q60 60, 60 55 L60 40 Q60 32, 65 30 M25 45 Q22 47, 22 52 L22 58 Q22 61, 25 63 Q28 61, 28 58 L28 52 Q28 47, 25 45 M75 45 Q78 47, 78 52 L78 58 Q78 61, 75 63 Q72 61, 72 58 L72 52 Q72 47, 75 45"
+                            fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        <circle cx="50" cy="50" r="42" class="scan-ring" stroke-dasharray="8 4" />
+                    </svg>
+                </div>
+                <h1 class="header-title">Palm Vein Payment System</h1>
+            </a>
+
+            <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+                <span>☰</span>
+            </button>
+
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About System</a>
+                <a href="security.html" class="nav-link">Security</a>
+                <a href="bank-enrollment.html" class="nav-link">Bank Enrollment</a>
+                <a href="user-login.html" class="nav-link active">User Login</a>
+                <a href="merchant-login.html" class="nav-link">Merchant Login</a>
+                <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Login Section -->
+    <section class="login-section">
+        <div class="container">
+            <div class="login-card card">
+                <div class="login-header">
+                    <div class="login-logo">
+                        <div class="biometric-logo logo-large">
+                            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M50 20 Q45 25, 45 35 L45 60 Q45 65, 50 70 Q55 65, 55 60 L55 35 Q55 25, 50 20 M35 30 Q30 32, 30 40 L30 55 Q30 60, 35 62 Q40 60, 40 55 L40 40 Q40 32, 35 30 M65 30 Q70 32, 70 40 L70 55 Q70 60, 65 62 Q60 60, 60 55 L60 40 Q60 32, 65 30 M25 45 Q22 47, 22 52 L22 58 Q22 61, 25 63 Q28 61, 28 58 L28 52 Q28 47, 25 45 M75 45 Q78 47, 78 52 L78 58 Q78 61, 75 63 Q72 61, 72 58 L72 52 Q72 47, 75 45"
+                                    fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                                <circle cx="50" cy="50" r="42" class="scan-ring" stroke-dasharray="8 4" />
+                            </svg>
+                        </div>
+                    </div>
+                    <h2>User Login</h2>
+                    <p class="text-muted">Access your payment account</p>
+                </div>
+
+                <form id="userLoginForm" method="POST" action="#">
+                    <div class="form-group">
+                        <label for="loginPhone" class="form-label">Phone Number</label>
+                        <input type="tel" id="loginPhone" name="phone_number" class="form-input"
+                            placeholder="Enter registered phone number" pattern="[0-9]{10}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginPassword" class="form-label">Password</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="loginPassword" name="password" class="form-input"
+                                placeholder="Enter your password" required>
+                            <button type="button" class="password-toggle"
+                                aria-label="Toggle password visibility">👁️</button>
+                        </div>
+                        <div class="text-right mt-xs">
+                            <a href="#"
+                                onclick="showAlert('Password recovery is handled securely by the bank after identity verification. This prototype demonstrates the flow conceptually.', 'info'); return false;"
+                                style="font-size: var(--font-size-small); color: var(--color-text-muted);">Forgot
+                                Password?</a>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Palm Scan Authentication</label>
+                        <button type="button" id="palmScanLoginBtn" class="btn btn-success btn-block">
+                            🖐️ Scan Palm to Authenticate
+                        </button>
+                        <span class="form-note">Your webcam will activate for authentication</span>
+                    </div>
+
+                    <button type="submit" id="loginSubmitBtn" class="btn btn-primary btn-block btn-large mt-lg">
+                        Login
+                    </button>
+                </form>
+
+                <div class="text-center mt-lg">
+                    <p class="text-muted">
+                        Not enrolled yet?
+                        <a href="bank-enrollment.html">Register at Bank</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div class="biometric-logo logo-small">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M50 20 Q45 25, 45 35 L45 60 Q45 65, 50 70 Q55 65, 55 60 L55 35 Q55 25, 50 20 M35 30 Q30 32, 30 40 L30 55 Q30 60, 35 62 Q40 60, 40 55 L40 40 Q40 32, 35 30 M65 30 Q70 32, 70 40 L70 55 Q70 60, 65 62 Q60 60, 60 55 L60 40 Q60 32, 65 30 M25 45 Q22 47, 22 52 L22 58 Q22 61, 25 63 Q28 61, 28 58 L28 52 Q28 47, 25 45 M75 45 Q78 47, 78 52 L78 58 Q78 61, 75 63 Q72 61, 72 58 L72 52 Q72 47, 75 45"
+                            fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        <circle cx="50" cy="50" r="42" class="scan-ring" stroke-dasharray="8 4" />
+                    </svg>
+                </div>
+            </div>
+
+            <p class="footer-text">
+                <strong>Palm Vein Payment System</strong><br>
+                Major Project - Bank Biometric Payment Portal
+            </p>
+
+            <div class="footer-copyright">
+                &copy; 2024 Palm Vein Payment System. Academic Project - For Educational Purposes Only.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Palm Scan Modal -->
+    <div id="palmScanModal" class="palm-scan-modal-overlay">
+        <div class="palm-scan-modal-content">
+            <div class="palm-scan-modal-header">
+                <h3 id="palmScanTitle">Palm Authentication</h3>
+                <p id="palmScanSubtitle">Please hold steady</p>
+            </div>
+            <div class="palm-scan-video-container">
+                <video id="palmScanVideo" class="palm-scan-video" autoplay playsinline muted></video>
+                <div class="palm-scan-overlay">
+                    <div class="palm-icon">✋</div>
+                    <div class="scan-ring-large"></div>
+                    <p id="palmScanStatusText" class="palm-scan-status-text">Initializing camera...</p>
+                    <div id="palmScanTimer" class="palm-scan-timer" style="display: none;">5s</div>
+                </div>
+            </div>
+            <div class="palm-scan-modal-footer">
+                <p>Palm vein biometric authentication in progress</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/camera-module.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/user-flow.js"></script>
+</body>
+
+</html>

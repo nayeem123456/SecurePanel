@@ -1,0 +1,24 @@
+<!-- Palm Scan Modal -->
+<div id="palmScanModal" class="palm-scan-modal-overlay">
+    <div class="palm-scan-modal-content">
+        <div class="palm-scan-modal-header">
+            <h3 id="palmScanTitle">Palm Authentication</h3>
+            <p id="palmScanSubtitle">Please hold steady</p>
+        </div>
+
+        <div class="palm-scan-video-container">
+            <video id="palmScanVideo" class="palm-scan-video" autoplay playsinline muted></video>
+
+            <div class="palm-scan-overlay">
+                <div class="palm-icon">✋</div>
+                <div class="scan-ring-large"></div>
+                <p id="palmScanStatusText" class="palm-scan-status-text">Initializing camera...</p>
+                <div id="palmScanTimer" class="palm-scan-timer" style="display: none;">5s</div>
+            </div>
+        </div>
+
+        <div class="palm-scan-modal-footer">
+            <p>Palm vein biometric authentication in progress</p>
+        </div>
+    </div>
+</div>

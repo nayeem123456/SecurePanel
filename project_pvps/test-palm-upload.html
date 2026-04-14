@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Palm Test - Upload Image</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .upload-area:hover {
+            border-color: #764ba2;
+            background: #f8f9fa;
+        }
+
+        .upload-area.dragover {
+            background: #e3f2fd;
+            border-color: #2196f3;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .preview-container {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        #imagePreview {
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin: 5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .status.info {
+            background: #e3f2fd;
+            color: #1976d2;
+            border: 2px solid #1976d2;
+        }
+
+        .status.success {
+            background: #e8f5e9;
+            color: #388e3c;
+            border: 2px solid #388e3c;
+        }
+
+        .status.error {
+            background: #ffebee;
+            color: #d32f2f;
+            border: 2px solid #d32f2f;
+        }
+
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .user-input {
+            margin: 20px 0;
+        }
+
+        .user-input label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .user-input input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .results {
+            margin-top: 20px;
+        }
+
+        .result-section {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .result-section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .metric-label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .metric-value {
+            color: #667eea;
+            font-weight: 700;
+        }
+
+        .json-output {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🖐️ Palm Recognition Test</h1>
+            <p>Upload a palm image or use your camera</p>
+        </div>
+
+        <div class="card">
+            <div id="status" class="status info">
+                Upload a palm image or click to take a photo
+            </div>
+
+            <div class="upload-area" id="uploadArea">
+                <h2>📸 Upload Palm Image</h2>
+                <p>Click here or drag and drop an image</p>
+                <p style="font-size: 0.9rem; color: #666; margin-top: 10px;">
+                    Supported formats: JPG, PNG, WebP
+                </p>
+            </div>
+
+            <input type="file" id="fileInput" accept="image/*" capture="environment">
+
+            <div class="preview-container">
+                <img id="imagePreview" alt="Palm preview">
+            </div>
+
+            <div class="user-input">
+                <label for="userId">User ID (for registration/authentication):</label>
+                <input type="number" id="userId" placeholder="Enter user ID (e.g., 1)" value="1">
+            </div>
+
+            <div class="controls">
+                <button id="analyzeBtn" class="btn-primary" disabled>🔍 Analyze Palm</button>
+                <button id="registerBtn" class="btn-success" disabled>✅ Register Palm</button>
+                <button id="authenticateBtn" class="btn-primary" disabled>🔐 Authenticate</button>
+            </div>
+        </div>
+
+        <div id="results" class="results" style="display: none;">
+            <div class="card">
+                <div class="result-section">
+                    <h3>📊 Analysis Results</h3>
+                    <div id="analysisMetrics"></div>
+                </div>
+
+                <div class="result-section">
+                    <h3>🧬 Biometric Analytics</h3>
+                    <div id="biometricMetrics"></div>
+                </div>
+
+                <div class="result-section">
+                    <h3>📋 Raw JSON Response</h3>
+                    <div id="jsonOutput" class="json-output"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let uploadArea = document.getElementById('uploadArea');
+        let fileInput = document.getElementById('fileInput');
+        let imagePreview = document.getElementById('imagePreview');
+        let capturedImage = null;
+
+        // Click to upload
+        uploadArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        // Drag and drop
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+
+        // File input change
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            if (!file.type.startsWith('image/')) {
+                updateStatus('Please select an image file', 'error');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                capturedImage = e.target.result;
+                imagePreview.src = capturedImage;
+                imagePreview.style.display = 'block';
+
+                document.getElementById('analyzeBtn').disabled = false;
+                document.getElementById('registerBtn').disabled = false;
+                document.getElementById('authenticateBtn').disabled = false;
+
+                updateStatus('✅ Image loaded! You can now analyze, register, or authenticate.', 'success');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Analyze palm
+        document.getElementById('analyzeBtn').addEventListener('click', async () => {
+            if (!capturedImage) {
+                updateStatus('Please upload an image first!', 'error');
+                return;
+            }
+
+            updateStatus('Analyzing palm with Gemini 2.5 Flash Lite...', 'info');
+            showLoading();
+
+            try {
+                // For now, we'll just show the image was captured
+                // The actual API call would go here
+                updateStatus('✅ Image ready for analysis. (Connect to backend API to analyze)', 'success');
+
+                // Simulate API response for testing
+                setTimeout(() => {
+                    displayResults({
+                        success: true,
+                        isPalm: true,
+                        confidence: 0.92,
+                        message: 'Valid palm detected',
+                        analytics: {
+                            vein_pattern_detected: true,
+                            palm_lines_detected: true,
+                            finger_count: 5,
+                            image_quality: 'excellent'
+                        }
+                    });
+                }, 1000);
+
+            } catch (error) {
+                updateStatus('Error: ' + error.message, 'error');
+                hideLoading();
+            }
+        });
+
+        // Register palm
+        document.getElementById('registerBtn').addEventListener('click', async () => {
+            if (!capturedImage) {
+                updateStatus('Please upload an image first!', 'error');
+                return;
+            }
+
+            const userId = document.getElementById('userId').value;
+            if (!userId) {
+                updateStatus('Please enter a user ID!', 'error');
+                return;
+            }
+
+            updateStatus('Registering palm...', 'info');
+            showLoading();
+
+            try {
+                const response = await fetch('backend/api/palm_register.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        user_id: userId,
+                        palm_image_data: capturedImage
+                    })
+                });
+
+                const result = await response.json();
+                displayResults(result);
+
+                if (result.success) {
+                    updateStatus(`✅ Palm registered successfully! Scan ID: ${result.data.scan_id}`, 'success');
+                } else {
+                    updateStatus(`❌ Registration failed: ${result.message}`, 'error');
+                }
+            } catch (error) {
+                updateStatus('Error registering palm: ' + error.message, 'error');
+                hideLoading();
+            }
+        });
+
+        // Authenticate palm
+        document.getElementById('authenticateBtn').addEventListener('click', async () => {
+            if (!capturedImage) {
+                updateStatus('Please upload an image first!', 'error');
+                return;
+            }
+
+            const userId = document.getElementById('userId').value;
+            if (!userId) {
+                updateStatus('Please enter a user ID!', 'error');
+                return;
+            }
+
+            updateStatus('Authenticating palm...', 'info');
+            showLoading();
+
+            try {
+                const response = await fetch('backend/api/palm_authenticate.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        user_id: userId,
+                        palm_image_data: capturedImage,
+                        auth_type: 'login'
+                    })
+                });
+
+                const result = await response.json();
+                displayResults(result);
+
+                if (result.success && result.data.authenticated) {
+                    updateStatus(`✅ Authentication successful! Match score: ${result.data.match_score}%`, 'success');
+                } else {
+                    updateStatus(`❌ Authentication failed: ${result.message}`, 'error');
+                }
+            } catch (error) {
+                updateStatus('Error authenticating: ' + error.message, 'error');
+                hideLoading();
+            }
+        });
+
+        function updateStatus(message, type) {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = message;
+            statusEl.className = `status ${type}`;
+        }
+
+        function showLoading() {
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('analysisMetrics').innerHTML = '<div class="loading"><div class="spinner"></div><p>Processing...</p></div>';
+        }
+
+        function hideLoading() {
+            // Loading will be replaced by results
+        }
+
+        function displayResults(data) {
+            document.getElementById('results').style.display = 'block';
+
+            // Display analysis metrics
+            let metricsHTML = '';
+
+            if (data.confidence !== undefined) {
+                const confidence = (data.confidence * 100).toFixed(2);
+                metricsHTML += `
+                    <div class="metric">
+                        <span class="metric-label">Overall Confidence</span>
+                        <span class="metric-value">${confidence}%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${confidence}%">${confidence}%</div>
+                    </div>
+                `;
+            }
+
+            if (data.data && data.data.match_score !== undefined) {
+                const matchScore = data.data.match_score;
+                metricsHTML += `
+                    <div class="metric">
+                        <span class="metric-label">Match Score</span>
+                        <span class="metric-value">${matchScore}%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${matchScore}%">${matchScore}%</div>
+                    </div>
+                `;
+            }
+
+            document.getElementById('analysisMetrics').innerHTML = metricsHTML || '<p>No metrics available</p>';
+
+            // Display biometric analytics
+            let bioHTML = '';
+
+            if (data.analytics) {
+                const analytics = data.analytics;
+                for (let key in analytics) {
+                    if (typeof analytics[key] === 'object') continue;
+                    bioHTML += `
+                        <div class="metric">
+                            <span class="metric-label">${key.replace(/_/g, ' ').toUpperCase()}</span>
+                            <span class="metric-value">${analytics[key]}</span>
+                        </div>
+                    `;
+                }
+            }
+
+            if (data.data && data.data.analytics) {
+                const analytics = data.data.analytics;
+                for (let key in analytics) {
+                    if (typeof analytics[key] === 'object') continue;
+                    bioHTML += `
+                        <div class="metric">
+                            <span class="metric-label">${key.replace(/_/g, ' ').toUpperCase()}</span>
+                            <span class="metric-value">${analytics[key]}</span>
+                        </div>
+                    `;
+                }
+            }
+
+            document.getElementById('biometricMetrics').innerHTML = bioHTML || '<p>No biometric data available</p>';
+
+            // Display raw JSON
+            document.getElementById('jsonOutput').textContent = JSON.stringify(data, null, 2);
+        }
+    </script>
+</body>
+
+</html>

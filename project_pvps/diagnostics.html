@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PVPS System Diagnostics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        .test-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #667eea;
+        }
+
+        .test-section h3 {
+            color: #1e3c72;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .status-box {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            border: 1px solid #e0e0e0;
+        }
+
+        .status-indicator {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .status-indicator.pending {
+            background: #ffa726;
+            animation: pulse 1.5s infinite;
+        }
+
+        .status-indicator.success {
+            background: #4caf50;
+        }
+
+        .status-indicator.error {
+            background: #f44336;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .status-text {
+            flex: 1;
+        }
+
+        .status-label {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .status-detail {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .test-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-right: 0.5rem;
+        }
+
+        .test-btn:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .test-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error-details {
+            background: #ffebee;
+            border: 1px solid #f44336;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #c62828;
+            word-break: break-word;
+            display: none;
+        }
+
+        .instructions {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+        }
+
+        .instructions h4 {
+            color: #1565c0;
+            margin-bottom: 0.5rem;
+        }
+
+        .instructions ol {
+            margin-left: 1.5rem;
+            color: #424242;
+        }
+
+        .instructions li {
+            margin-bottom: 0.5rem;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔧 PVPS System Diagnostics</h1>
+            <p>Check your Palm Vein Payment System setup</p>
+        </div>
+
+        <div class="content">
+            <!-- Test 1: Database Connection -->
+            <div class="test-section">
+                <h3>1. Database Connection (MySQL)</h3>
+                <div class="status-box" id="db-status">
+                    <div class="status-indicator pending"></div>
+                    <div class="status-text">
+                        <div class="status-label">Database Connection</div>
+                        <div class="status-detail">Waiting for test...</div>
+                    </div>
+                </div>
+                <button class="test-btn" onclick="testDatabase()">Test Database</button>
+                <div class="error-details" id="db-error"></div>
+            </div>
+
+            <!-- Test 2: User Login API -->
+            <div class="test-section">
+                <h3>2. User Login API</h3>
+                <div class="status-box" id="userapi-status">
+                    <div class="status-indicator pending"></div>
+                    <div class="status-text">
+                        <div class="status-label">User Login API</div>
+                        <div class="status-detail">Waiting for test...</div>
+                    </div>
+                </div>
+                <button class="test-btn" onclick="testUserLoginAPI()">Test User Login API</button>
+                <div class="error-details" id="userapi-error"></div>
+            </div>
+
+            <!-- Test 3: Payment API -->
+            <div class="test-section">
+                <h3>3. Payment Initiation API</h3>
+                <div class="status-box" id="payment-status">
+                    <div class="status-indicator pending"></div>
+                    <div class="status-text">
+                        <div class="status-label">Payment API</div>
+                        <div class="status-detail">Waiting for test...</div>
+                    </div>
+                </div>
+                <button class="test-btn" onclick="testPaymentAPI()">Test Payment API</button>
+                <div class="error-details" id="payment-error"></div>
+            </div>
+
+            <!-- Test 4: Merchant Login API -->
+            <div class="test-section">
+                <h3>4. Merchant Login API</h3>
+                <div class="status-box" id="merchantapi-status">
+                    <div class="status-indicator pending"></div>
+                    <div class="status-text">
+                        <div class="status-label">Merchant Login API</div>
+                        <div class="status-detail">Waiting for test...</div>
+                    </div>
+                </div>
+                <button class="test-btn" onclick="testMerchantLoginAPI()">Test Merchant Login API</button>
+                <div class="error-details" id="merchantapi-error"></div>
+            </div>
+
+            <!-- Instructions -->
+            <div class="instructions">
+                <h4>⚠️ If Tests Fail:</h4>
+                <ol>
+                    <li><strong>XAMPP Not Running:</strong> Open XAMPP Control Panel and start Apache and MySQL services</li>
+                    <li><strong>Database Not Created:</strong> Open phpMyAdmin (http://localhost/phpmyadmin) and create database 'pvps_db'</li>
+                    <li><strong>Tables Missing:</strong> Import the database schema from backend/database/ folder</li>
+                    <li><strong>Port Conflicts:</strong> Make sure no other services are using ports 80 (Apache) or 3306 (MySQL)</li>
+                    <li><strong>File Permissions:</strong> Ensure backend files have proper read permissions</li>
+                </ol>
+            </div>
+
+            <!-- Run All Tests Button -->
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="test-btn" onclick="runAllTests()" style="background: #4caf50; padding: 1rem 2rem; font-size: 1.1rem;">
+                    🚀 Run All Tests
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function testDatabase() {
+            updateStatus('db-status', 'pending', 'Database Connection', 'Testing connection...');
+            
+            try {
+                const response = await fetch('backend/config/db.php');
+                const text = await response.text();
+                
+                // Try to parse as JSON
+                try {
+                    const result = JSON.parse(text);
+                    if (result.success === false) {
+                        updateStatus('db-status', 'error', 'Database Connection Failed', result.message || 'Connection error');
+                        showError('db-error', JSON.stringify(result, null, 2));
+                    } else {
+                        updateStatus('db-status', 'error', 'Unexpected Response', 'Database file returned unexpected data');
+                        showError('db-error', text);
+                    }
+                } catch (e) {
+                    // If it's not JSON, it means the file loaded successfully (no connection error)
+                    if (response.ok) {
+                        updateStatus('db-status', 'success', 'Database Connection OK', 'MySQL connection established successfully');
+                        hideError('db-error');
+                    } else {
+                        updateStatus('db-status', 'error', 'Cannot Access Database File', 'HTTP ' + response.status);
+                        showError('db-error', text);
+                    }
+                }
+            } catch (error) {
+                updateStatus('db-status', 'error', 'Network Error', 'Cannot reach backend: ' + error.message);
+                showError('db-error', error.message + '\n\nMake sure XAMPP Apache is running!');
+            }
+        }
+
+        async function testUserLoginAPI() {
+            updateStatus('userapi-status', 'pending', 'User Login API', 'Testing API endpoint...');
+            
+            try {
+                const response = await fetch('backend/api/user_login.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        phone_number: '0000000000',
+                        password: 'test'
+                    })
+                });
+
+                const text = await response.text();
+                console.log('User Login Response:', text);
+
+                try {
+                    const result = JSON.parse(text);
+                    
+                    if (result.success === false && (result.message.includes('User not found') || result.message.includes('password'))) {
+                        // API is working, just user doesn't exist (expected)
+                        updateStatus('userapi-status', 'success', 'User Login API Working', 'API endpoint responding correctly');
+                        hideError('userapi-error');
+                    } else if (result.success === true) {
+                        updateStatus('userapi-status', 'success', 'User Login API Working', 'Test credentials worked!');
+                        hideError('userapi-error');
+                    } else {
+                        updateStatus('userapi-status', 'error', 'API Error', result.message || 'Unknown error');
+                        showError('userapi-error', JSON.stringify(result, null, 2));
+                    }
+                } catch (e) {
+                    updateStatus('userapi-status', 'error', 'Invalid JSON Response', 'API returned non-JSON data');
+                    showError('userapi-error', 'Response:\n' + text + '\n\nParse Error: ' + e.message);
+                }
+            } catch (error) {
+                updateStatus('userapi-status', 'error', 'Network Error', error.message);
+                showError('userapi-error', error.message + '\n\nMake sure XAMPP Apache is running!');
+            }
+        }
+
+        async function testMerchantLoginAPI() {
+            updateStatus('merchantapi-status', 'pending', 'Merchant Login API', 'Testing API endpoint...');
+            
+            try {
+                const response = await fetch('backend/api/merchant_login.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        merchant_id: 'TEST123',
+                        password: 'test'
+                    })
+                });
+
+                const text = await response.text();
+                console.log('Merchant Login Response:', text);
+
+                try {
+                    const result = JSON.parse(text);
+                    
+                    if (result.success === false && result.message.includes('Invalid')) {
+                        // API is working, just credentials are wrong (expected)
+                        updateStatus('merchantapi-status', 'success', 'Merchant Login API Working', 'API endpoint responding correctly');
+                        hideError('merchantapi-error');
+                    } else if (result.success === true) {
+                        updateStatus('merchantapi-status', 'success', 'Merchant Login API Working', 'Test credentials worked!');
+                        hideError('merchantapi-error');
+                    } else {
+                        updateStatus('merchantapi-status', 'error', 'API Error', result.message || 'Unknown error');
+                        showError('merchantapi-error', JSON.stringify(result, null, 2));
+                    }
+                } catch (e) {
+                    updateStatus('merchantapi-status', 'error', 'Invalid JSON Response', 'API returned non-JSON data');
+                    showError('merchantapi-error', 'Response:\n' + text + '\n\nParse Error: ' + e.message);
+                }
+            } catch (error) {
+                updateStatus('merchantapi-status', 'error', 'Network Error', error.message);
+                showError('merchantapi-error', error.message + '\n\nMake sure XAMPP Apache is running!');
+            }
+        }
+
+        async function testPaymentAPI() {
+            updateStatus('payment-status', 'pending', 'Payment API', 'Testing API endpoint...');
+            
+            try {
+                const response = await fetch('backend/api/initiate_payment.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        merchant_id: 'TEST123',
+                        user_phone: '0000000000',
+                        amount: 100
+                    })
+                });
+
+                const text = await response.text();
+                console.log('Payment Response:', text);
+
+                try {
+                    const result = JSON.parse(text);
+                    
+                    if (result.success === false && (result.message.includes('Invalid') || result.message.includes('not enrolled') || result.message.includes('merchant'))) {
+                        // API is working, just data doesn't exist (expected)
+                        updateStatus('payment-status', 'success', 'Payment API Working', 'API endpoint responding correctly');
+                        hideError('payment-error');
+                    } else if (result.success === true) {
+                        updateStatus('payment-status', 'success', 'Payment API Working', 'Successfully created test transaction!');
+                        hideError('payment-error');
+                    } else {
+                        updateStatus('payment-status', 'error', 'API Error', result.message || 'Unknown error');
+                        showError('payment-error', JSON.stringify(result, null, 2));
+                    }
+                } catch (e) {
+                    updateStatus('payment-status', 'error', 'Invalid JSON Response', 'API returned non-JSON data');
+                    showError('payment-error', 'Response:\n' + text + '\n\nParse Error: ' + e.message);
+                }
+            } catch (error) {
+                updateStatus('payment-status', 'error', 'Network Error', error.message);
+                showError('payment-error', error.message + '\n\nMake sure XAMPP Apache is running!');
+            }
+        }
+
+        function updateStatus(elementId, status, label, detail) {
+            const statusBox = document.getElementById(elementId);
+            const indicator = statusBox.querySelector('.status-indicator');
+            const labelEl = statusBox.querySelector('.status-label');
+            const detailEl = statusBox.querySelector('.status-detail');
+
+            indicator.className = 'status-indicator ' + status;
+            labelEl.textContent = label;
+            detailEl.textContent = detail;
+        }
+
+        function showError(elementId, errorText) {
+            const errorDiv = document.getElementById(elementId);
+            errorDiv.textContent = errorText;
+            errorDiv.style.display = 'block';
+        }
+
+        function hideError(elementId) {
+            const errorDiv = document.getElementById(elementId);
+            errorDiv.style.display = 'none';
+        }
+
+        async function runAllTests() {
+            await testDatabase();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            await testUserLoginAPI();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            await testMerchantLoginAPI();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            await testPaymentAPI();
+        }
+
+        // Auto-run all tests on page load
+        window.addEventListener('load', () => {
+            setTimeout(runAllTests, 500);
+        });
+    </script>
+</body>
+</html>

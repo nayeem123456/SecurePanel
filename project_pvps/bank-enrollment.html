@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bank Enrollment - Register users and merchants in Palm Vein Payment System">
+    <title>Bank Enrollment - Palm Vein Payment System</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/navigation.css">
+    <link rel="stylesheet" href="css/toast.css">
+
+    <!-- Theme Script (loaded early to prevent flash) -->
+    <script src="js/theme.js"></script>
+    <script src="js/toast.js"></script>
+
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+            color: var(--color-secondary);
+            padding: var(--spacing-xl) 0;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            color: var(--color-secondary);
+        }
+
+        .enrollment-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: var(--spacing-xl);
+            margin-top: var(--spacing-xl);
+        }
+
+        .scan-button {
+            background: var(--color-success);
+            color: var(--color-secondary);
+            margin-top: var(--spacing-sm);
+        }
+
+        .scan-button:hover {
+            background: var(--color-success-light);
+        }
+
+        .scan-button.scanning {
+            background: var(--color-warning);
+            cursor: wait;
+        }
+
+        .scan-status {
+            margin-top: var(--spacing-sm);
+            padding: var(--spacing-sm);
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            text-align: center;
+            display: none;
+        }
+
+        .scan-status.active {
+            display: block;
+        }
+
+        .scan-status.scanning {
+            background: #fff5e6;
+            color: #c05621;
+        }
+
+        .scan-status.success {
+            background: #e6f9f0;
+            color: #2f855a;
+        }
+
+        @media (max-width: 768px) {
+            .enrollment-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="header-logo">
+                <div class="biometric-logo logo-medium">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M50 20 Q45 25, 45 35 L45 60 Q45 65, 50 70 Q55 65, 55 60 L55 35 Q55 25, 50 20 M35 30 Q30 32, 30 40 L30 55 Q30 60, 35 62 Q40 60, 40 55 L40 40 Q40 32, 35 30 M65 30 Q70 32, 70 40 L70 55 Q70 60, 65 62 Q60 60, 60 55 L60 40 Q60 32, 65 30 M25 45 Q22 47, 22 52 L22 58 Q22 61, 25 63 Q28 61, 28 58 L28 52 Q28 47, 25 45 M75 45 Q78 47, 78 52 L78 58 Q78 61, 75 63 Q72 61, 72 58 L72 52 Q72 47, 75 45"
+                            fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        <circle cx="50" cy="50" r="42" class="scan-ring" stroke-dasharray="8 4" />
+                    </svg>
+                </div>
+                <h1 class="header-title">Palm Vein Payment System</h1>
+            </a>
+
+            <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+                <span>☰</span>
+            </button>
+
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About System</a>
+                <a href="security.html" class="nav-link">Security</a>
+                <a href="bank-enrollment.html" class="nav-link active">Bank Enrollment</a>
+                <a href="user-login.html" class="nav-link">User Login</a>
+                <a href="merchant-login.html" class="nav-link">Merchant Login</a>
+                <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Bank Enrollment Module</h1>
+            <p>Simulated Registration for Demonstration Purposes</p>
+        </div>
+    </section>
+
+    <!-- Important Notice -->
+    <section class="section">
+        <div class="container">
+            <div class="alert alert-info">
+                <strong>⚠️ Demonstration Simulation</strong><br>
+                For demonstration purposes, bank enrollment is simulated here on this website.
+                In real-world banking systems, enrollment occurs exclusively at <strong>physical bank branches</strong>
+                with specialized biometric equipment and under the supervision of authorized bank personnel.
+                Customers cannot self-enroll remotely.
+            </div>
+        </div>
+    </section>
+
+    <!-- Enrollment Forms -->
+    <main class="section">
+        <div class="container">
+            <div class="enrollment-container">
+
+                <!-- User Enrollment Section -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">User Enrollment</h2>
+                        <p class="text-muted">Register customer with biometric authentication</p>
+                    </div>
+
+                    <form id="userEnrollmentForm" method="POST" action="#">
+                        <div class="form-group">
+                            <label for="userName" class="form-label">Full Name *</label>
+                            <input type="text" id="userName" name="full_name" class="form-input"
+                                placeholder="Enter full name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="userPhone" class="form-label">Phone Number *</label>
+                            <input type="tel" id="userPhone" name="phone_number" class="form-input"
+                                placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
+                            <span class="form-note">Enter 10-digit mobile number without country code</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="userAccount" class="form-label">Account ID *</label>
+                            <input type="text" id="userAccount" name="account_id" class="form-input"
+                                placeholder="Enter 11-18 digit account number" pattern="[0-9]{11,18}" minlength="11"
+                                maxlength="18" inputmode="numeric" required>
+                            <span class="form-note">Enter valid bank account number (11-18 digits, numeric only, no
+                                all-same repetitive numbers)</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="userPassword" class="form-label">Password *</label>
+                            <div class="password-wrapper">
+                                <input type="password" id="userPassword" name="password" class="form-input"
+                                    placeholder="Create password" minlength="6" required>
+                                <button type="button" class="password-toggle"
+                                    aria-label="Toggle password visibility">👁️</button>
+                            </div>
+                            <span class="form-note">Minimum 6 characters</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="userConfirmPassword" class="form-label">Confirm Password *</label>
+                            <div class="password-wrapper">
+                                <input type="password" id="userConfirmPassword" name="confirm_password"
+                                    class="form-input" placeholder="Re-enter password" minlength="6" required>
+                                <button type="button" class="password-toggle"
+                                    aria-label="Toggle password visibility">👁️</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Palm Vein Scan *</label>
+                            <button type="button" id="palmScanBtn" class="btn scan-button btn-block">
+                                Initiate Palm Scan
+                            </button>
+                            <span class="form-note">Your webcam will activate for biometric capture</span>
+                        </div>
+
+                        <button type="submit" id="userSubmitBtn" class="btn btn-primary btn-block btn-large mt-lg">
+                            Enroll User
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Merchant Enrollment Section -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Merchant Enrollment</h2>
+                        <p class="text-muted">Register merchant account for payment collection</p>
+                    </div>
+
+                    <form id="merchantEnrollmentForm" method="POST" action="#">
+                        <div class="form-group">
+                            <label for="shopName" class="form-label">Shop Name *</label>
+                            <input type="text" id="shopName" name="shop_name" class="form-input"
+                                placeholder="Business or shop name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="merchantPhone" class="form-label">Phone Number *</label>
+                            <input type="tel" id="merchantPhone" name="phone_number" class="form-input"
+                                placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="merchantPassword" class="form-label">Password *</label>
+                            <div class="password-wrapper">
+                                <input type="password" id="merchantPassword" name="password" class="form-input"
+                                    placeholder="Create login password" minlength="6" required>
+                                <button type="button" class="password-toggle"
+                                    aria-label="Toggle password visibility">👁️</button>
+                            </div>
+                            <span class="form-note">Minimum 6 characters for merchant portal access</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="merchantConfirmPassword" class="form-label">Confirm Password *</label>
+                            <div class="password-wrapper">
+                                <input type="password" id="merchantConfirmPassword" name="confirm_password"
+                                    class="form-input" placeholder="Re-enter password" minlength="6" required>
+                                <button type="button" class="password-toggle"
+                                    aria-label="Toggle password visibility">👁️</button>
+                            </div>
+                        </div>
+
+                        <div id="merchantIdDisplay" class="alert alert-success mt-md" style="display: none;">
+                            <strong>✓ Enrollment Successful!</strong><br>
+                            Your Merchant ID: <strong id="generatedMerchantId"
+                                style="font-size: 1.2em; color: var(--color-primary);"></strong>
+                            <br><br>
+                            <button type="button" id="copyMerchantIdBtn" class="btn btn-secondary mt-sm">📋 Copy
+                                Merchant ID</button>
+                            <br><br>
+                            <div class="alert alert-warning" style="margin-top: var(--spacing-sm); margin-bottom: 0;">
+                                <strong>⚠️ Important:</strong> Please save this Merchant ID securely. You will need it
+                                to log in.
+                            </div>
+                        </div>
+
+                        <div class="alert alert-info mt-md">
+                            <strong>Note:</strong> Merchants do not require biometric enrollment.
+                            Authentication uses Merchant ID and password. Your merchant ID will be automatically
+                            generated.
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block btn-large mt-lg">
+                            Enroll Merchant
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div class="biometric-logo logo-small">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M50 20 Q45 25, 45 35 L45 60 Q45 65, 50 70 Q55 65, 55 60 L55 35 Q55 25, 50 20 M35 30 Q30 32, 30 40 L30 55 Q30 60, 35 62 Q40 60, 40 55 L40 40 Q40 32, 35 30 M65 30 Q70 32, 70 40 L70 55 Q70 60, 65 62 Q60 60, 60 55 L60 40 Q60 32, 65 30 M25 45 Q22 47, 22 52 L22 58 Q22 61, 25 63 Q28 61, 28 58 L28 52 Q28 47, 25 45 M75 45 Q78 47, 78 52 L78 58 Q78 61, 75 63 Q72 61, 72 58 L72 52 Q72 47, 75 45"
+                            fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        <circle cx="50" cy="50" r="42" class="scan-ring" stroke-dasharray="8 4" />
+                    </svg>
+                </div>
+            </div>
+
+            <p class="footer-text">
+                <strong>Palm Vein Payment System</strong><br>
+                Major Project - Bank Biometric Payment Portal
+            </p>
+
+            <p class="footer-text">
+                A demonstration of secure palm vein biometric authentication<br>
+                for contactless payment processing in banking systems.
+            </p>
+
+            <div class="footer-copyright">
+                &copy; 2024 Palm Vein Payment System. Academic Project - For Educational Purposes Only.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Palm Scan Modal -->
+    <div id="palmScanModal" class="palm-scan-modal-overlay">
+        <div class="palm-scan-modal-content">
+            <div class="palm-scan-modal-header">
+                <h3 id="palmScanTitle">Palm Authentication</h3>
+                <p id="palmScanSubtitle">Please hold steady</p>
+            </div>
+
+            <div class="palm-scan-video-container">
+                <video id="palmScanVideo" class="palm-scan-video" autoplay playsinline muted></video>
+
+                <div class="palm-scan-overlay">
+                    <div class="palm-icon">✋</div>
+                    <div class="scan-ring-large"></div>
+                    <p id="palmScanStatusText" class="palm-scan-status-text">Initializing camera...</p>
+                    <div id="palmScanTimer" class="palm-scan-timer" style="display: none;">5s</div>
+                </div>
+            </div>
+
+            <div class="palm-scan-modal-footer">
+                <p>Palm vein biometric authentication in progress</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/camera-module.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/enrollment.js"></script>
+</body>
+
+</html>

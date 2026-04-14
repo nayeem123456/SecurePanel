@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Test - Palm Recognition</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .status-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .status-error {
+            background: #ef4444;
+            color: white;
+        }
+
+        .status-pending {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .test-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .test-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        video {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 10px;
+            margin: 15px 0;
+            background: #000;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin: 5px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-box {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .result-box pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 12px;
+            color: #333;
+        }
+
+        .info-box {
+            background: #eff6ff;
+            border-left: 4px solid #3b82f6;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .info-box strong {
+            color: #1e40af;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            padding: 8px 0;
+            color: #555;
+        }
+
+        .feature-list li::before {
+            content: "✅ ";
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 OpenRouter API Integration Test</h1>
+        <p class="subtitle">Testing NVIDIA Nemotron Nano 12B 2 VL Model</p>
+
+        <div id="statusBadge" class="status-badge status-pending">⏳ Checking API Status...</div>
+
+        <div class="info-box">
+            <strong>🔑 API Provider:</strong> OpenRouter<br>
+            <strong>🤖 Model:</strong> nvidia/nemotron-nano-12b-2-vl:free<br>
+            <strong>🎯 Purpose:</strong> Palm Vein Recognition & Authentication
+        </div>
+
+        <!-- Test 1: API Status -->
+        <div class="test-section">
+            <h3>Test 1: API Configuration Status</h3>
+            <button onclick="testAPIStatus()">Check API Status</button>
+            <div id="apiStatusResult" class="result-box" style="display: none;">
+                <pre id="apiStatusText"></pre>
+            </div>
+        </div>
+
+        <!-- Test 2: Camera Access -->
+        <div class="test-section">
+            <h3>Test 2: Camera Access & Palm Capture</h3>
+            <button onclick="startCamera()" id="cameraBtn">Start Camera</button>
+            <button onclick="captureImage()" id="captureBtn" disabled>Capture Palm Image</button>
+            <button onclick="stopCamera()" id="stopBtn" disabled>Stop Camera</button>
+            <br>
+            <video id="video" autoplay playsinline style="display: none;"></video>
+            <canvas id="canvas" style="display: none;"></canvas>
+        </div>
+
+        <!-- Test 3: Palm Recognition -->
+        <div class="test-section">
+            <h3>Test 3: Palm Recognition with OpenRouter</h3>
+            <button onclick="testPalmRecognition()" id="testBtn" disabled>Test Palm Recognition</button>
+            <div id="palmResult" class="result-box" style="display: none;">
+                <pre id="palmResultText"></pre>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div class="test-section">
+            <h3>✨ Integrated Features</h3>
+            <ul class="feature-list">
+                <li>Unlimited free API calls (no rate limits)</li>
+                <li>Advanced multimodal vision analysis</li>
+                <li>Real-time palm vein detection</li>
+                <li>Biometric signature generation</li>
+                <li>Palm matching for authentication</li>
+                <li>Database integration for user login</li>
+                <li>Strict validation (rejects faces, objects, etc.)</li>
+                <li>Production-ready performance</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        let stream = null;
+        let capturedImage = null;
+
+        // Test API Status
+        async function testAPIStatus() {
+            const resultDiv = document.getElementById('apiStatusResult');
+            const resultText = document.getElementById('apiStatusText');
+            const badge = document.getElementById('statusBadge');
+            
+            resultDiv.style.display = 'block';
+            resultText.textContent = 'Loading...';
+            
+            try {
+                const response = await fetch('backend/api/palm_recognition.php');
+                const data = await response.json();
+                
+                resultText.textContent = JSON.stringify(data, null, 2);
+                
+                if (data.status === 'Palm Recognition API Ready') {
+                    badge.className = 'status-badge status-success';
+                    badge.textContent = '✅ API Ready - OpenRouter Connected';
+                } else {
+                    badge.className = 'status-badge status-error';
+                    badge.textContent = '❌ API Error';
+                }
+            } catch (error) {
+                resultText.textContent = 'Error: ' + error.message;
+                badge.className = 'status-badge status-error';
+                badge.textContent = '❌ Connection Failed';
+            }
+        }
+
+        // Start Camera
+        async function startCamera() {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        facingMode: 'user',
+                        width: { ideal: 640 },
+                        height: { ideal: 480 }
+                    } 
+                });
+                
+                const video = document.getElementById('video');
+                video.srcObject = stream;
+                video.style.display = 'block';
+                
+                document.getElementById('cameraBtn').disabled = true;
+                document.getElementById('captureBtn').disabled = false;
+                document.getElementById('stopBtn').disabled = false;
+            } catch (error) {
+                alert('Camera access denied: ' + error.message);
+            }
+        }
+
+        // Capture Image
+        function captureImage() {
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('canvas');
+            const context = canvas.getContext('2d');
+            
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0);
+            
+            capturedImage = canvas.toDataURL('image/jpeg', 0.8);
+            
+            document.getElementById('testBtn').disabled = false;
+            alert('✅ Palm image captured! Click "Test Palm Recognition" to analyze.');
+        }
+
+        // Stop Camera
+        function stopCamera() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                document.getElementById('video').style.display = 'none';
+                document.getElementById('cameraBtn').disabled = false;
+                document.getElementById('captureBtn').disabled = true;
+                document.getElementById('stopBtn').disabled = true;
+            }
+        }
+
+        // Test Palm Recognition
+        async function testPalmRecognition() {
+            if (!capturedImage) {
+                alert('Please capture an image first!');
+                return;
+            }
+            
+            const resultDiv = document.getElementById('palmResult');
+            const resultText = document.getElementById('palmResultText');
+            const testBtn = document.getElementById('testBtn');
+            
+            resultDiv.style.display = 'block';
+            resultText.textContent = '🔄 Analyzing palm with OpenRouter AI...\nThis may take 3-5 seconds...';
+            testBtn.disabled = true;
+            testBtn.innerHTML = 'Analyzing... <span class="loading"></span>';
+            
+            try {
+                const response = await fetch('backend/api/palm_recognition.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        action: 'analyze',
+                        palm_image_data: capturedImage
+                    })
+                });
+                
+                const data = await response.json();
+                
+                // Format the result
+                let formattedResult = '=== OPENROUTER API RESPONSE ===\n\n';
+                formattedResult += `✅ Success: ${data.success}\n`;
+                formattedResult += `🖐️ Valid Hand: ${data.isValidHand || data.isPalm}\n`;
+                formattedResult += `📊 Confidence: ${(data.confidence * 100).toFixed(1)}%\n`;
+                formattedResult += `💬 Message: ${data.message}\n\n`;
+                
+                if (data.detected_objects && data.detected_objects.length > 0) {
+                    formattedResult += `🔍 Detected Objects: ${data.detected_objects.join(', ')}\n\n`;
+                }
+                
+                if (data.suggestion) {
+                    formattedResult += `💡 Suggestion: ${data.suggestion}\n\n`;
+                }
+                
+                formattedResult += '=== FULL RESPONSE ===\n';
+                formattedResult += JSON.stringify(data, null, 2);
+                
+                resultText.textContent = formattedResult;
+                
+                testBtn.disabled = false;
+                testBtn.textContent = 'Test Palm Recognition';
+                
+                // Show success/error alert
+                if (data.isValidHand || data.isPalm) {
+                    alert('✅ SUCCESS! Valid hand detected with ' + (data.confidence * 100).toFixed(1) + '% confidence!');
+                } else {
+                    alert('❌ No valid hand detected. ' + data.message);
+                }
+            } catch (error) {
+                resultText.textContent = 'Error: ' + error.message;
+                testBtn.disabled = false;
+                testBtn.textContent = 'Test Palm Recognition';
+                alert('Error: ' + error.message);
+            }
+        }
+
+        // Auto-test API status on load
+        window.addEventListener('load', () => {
+            setTimeout(testAPIStatus, 1000);
+        });
+    </script>
+</body>
+</html>

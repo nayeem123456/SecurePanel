@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palm Recognition Test - Gemini 2.5 Flash Lite</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 640px;
+            margin: 0 auto 20px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        #video {
+            width: 100%;
+            height: auto;
+            display: block;
+            background: #000;
+            min-height: 360px;
+        }
+
+        #video.active {
+            display: block !important;
+        }
+
+        canvas {
+            display: none;
+        }
+
+        .camera-placeholder {
+            width: 100%;
+            height: 360px;
+            background: #2c3e50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            border-radius: 15px;
+        }
+
+        .camera-error {
+            background: #e74c3c;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            display: none;
+        }
+
+        .camera-error.show {
+            display: block;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+            color: white;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .status {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .status.info {
+            background: #e3f2fd;
+            color: #1976d2;
+            border: 2px solid #1976d2;
+        }
+
+        .status.success {
+            background: #e8f5e9;
+            color: #388e3c;
+            border: 2px solid #388e3c;
+        }
+
+        .status.error {
+            background: #ffebee;
+            color: #d32f2f;
+            border: 2px solid #d32f2f;
+        }
+
+        .status.warning {
+            background: #fff3e0;
+            color: #f57c00;
+            border: 2px solid #f57c00;
+        }
+
+        .results {
+            margin-top: 20px;
+        }
+
+        .result-section {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .result-section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .metric-label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .metric-value {
+            color: #667eea;
+            font-weight: 700;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .json-output {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .user-select {
+            margin-bottom: 20px;
+        }
+
+        .user-select label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .user-select input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .user-select input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🖐️ Palm Recognition Test</h1>
+            <p>Powered by Gemini 2.5 Flash Lite - Advanced AI Biometric System</p>
+        </div>
+
+        <div class="card">
+            <div id="status" class="status info">
+                Click "Start Camera" to begin palm scanning
+            </div>
+
+            <div id="cameraError" class="camera-error">
+                Camera access denied or unavailable. Please check permissions.
+            </div>
+
+            <div class="video-container">
+                <video id="video" autoplay playsinline muted></video>
+            </div>
+            <canvas id="canvas"></canvas>
+
+            <div class="controls">
+                <button id="startCamera" class="btn-primary">📹 Start Camera</button>
+                <button id="captureBtn" class="btn-success" disabled>📸 Capture Palm</button>
+                <button id="analyzeBtn" class="btn-primary" disabled>🔍 Analyze Palm</button>
+                <button id="registerBtn" class="btn-success" disabled>✅ Register Palm</button>
+                <button id="authenticateBtn" class="btn-primary" disabled>🔐 Authenticate</button>
+            </div>
+
+            <div class="user-select">
+                <label for="userId">User ID (for registration/authentication):</label>
+                <input type="number" id="userId" placeholder="Enter user ID (e.g., 1)" value="1">
+            </div>
+        </div>
+
+        <div id="results" class="results" style="display: none;">
+            <div class="card">
+                <div class="result-section">
+                    <h3>📊 Analysis Results</h3>
+                    <div id="analysisMetrics"></div>
+                </div>
+
+                <div class="result-section">
+                    <h3>🧬 Biometric Analytics</h3>
+                    <div id="biometricMetrics"></div>
+                </div>
+
+                <div class="result-section">
+                    <h3>📋 Raw JSON Response</h3>
+                    <div id="jsonOutput" class="json-output"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let video = document.getElementById('video');
+        let canvas = document.getElementById('canvas');
+        let ctx = canvas.getContext('2d');
+        let capturedImage = null;
+        let stream = null;
+
+        // Start camera with improved error handling
+        document.getElementById('startCamera').addEventListener('click', async () => {
+            try {
+                // Hide any previous errors
+                document.getElementById('cameraError').classList.remove('show');
+
+                // Try different camera constraints
+                const constraints = [
+                    // Try back camera first (better for palm scanning)
+                    { video: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } } },
+                    // Try front camera
+                    { video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 } } },
+                    // Try any camera with lower resolution
+                    { video: { width: { ideal: 640 }, height: { ideal: 480 } } },
+                    // Try basic video
+                    { video: true }
+                ];
+
+                let cameraStarted = false;
+                let lastError = null;
+
+                for (let constraint of constraints) {
+                    try {
+                        updateStatus('Requesting camera access...', 'info');
+                        stream = await navigator.mediaDevices.getUserMedia(constraint);
+
+                        // Successfully got stream
+                        video.srcObject = stream;
+                        video.classList.add('active');
+
+                        // Wait for video to be ready
+                        await new Promise((resolve) => {
+                            video.onloadedmetadata = () => {
+                                video.play();
+                                resolve();
+                            };
+                        });
+
+                        cameraStarted = true;
+                        document.getElementById('captureBtn').disabled = false;
+                        document.getElementById('startCamera').textContent = '🔴 Stop Camera';
+                        updateStatus('✅ Camera started! Position your palm clearly in front of the camera.', 'success');
+                        break;
+
+                    } catch (err) {
+                        lastError = err;
+                        console.log('Constraint failed:', constraint, err);
+                        continue;
+                    }
+                }
+
+                if (!cameraStarted) {
+                    throw lastError || new Error('Could not start camera');
+                }
+
+            } catch (error) {
+                console.error('Camera error:', error);
+
+                let errorMessage = 'Error accessing camera: ';
+
+                if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+                    errorMessage += 'Camera permission denied. Please allow camera access and try again.';
+                } else if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
+                    errorMessage += 'No camera found. Please connect a camera and try again.';
+                } else if (error.name === 'NotReadableError' || error.name === 'TrackStartError') {
+                    errorMessage += 'Camera is already in use by another application.';
+                } else if (error.name === 'OverconstrainedError') {
+                    errorMessage += 'Camera does not support the requested settings.';
+                } else if (error.name === 'SecurityError') {
+                    errorMessage += 'Camera access blocked by security policy. Please use HTTPS or localhost.';
+                } else {
+                    errorMessage += error.message;
+                }
+
+                document.getElementById('cameraError').textContent = errorMessage;
+                document.getElementById('cameraError').classList.add('show');
+                updateStatus(errorMessage, 'error');
+            }
+        });
+
+        // Capture palm image
+        document.getElementById('captureBtn').addEventListener('click', () => {
+            if (!video.videoWidth || !video.videoHeight) {
+                updateStatus('Camera not ready. Please wait a moment and try again.', 'error');
+                return;
+            }
+
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            ctx.drawImage(video, 0, 0);
+            capturedImage = canvas.toDataURL('image/jpeg', 0.9);
+
+            document.getElementById('analyzeBtn').disabled = false;
+            document.getElementById('registerBtn').disabled = false;
+            document.getElementById('authenticateBtn').disabled = false;
+
+            updateStatus('✅ Palm image captured! You can now analyze, register, or authenticate.', 'success');
+
+            // Flash effect
+            video.style.opacity = '0.5';
+            setTimeout(() => { video.style.opacity = '1'; }, 200);
+        });
+
+        // Analyze palm
+        document.getElementById('analyzeBtn').addEventListener('click', async () => {
+            if (!capturedImage) {
+                updateStatus('Please capture an image first!', 'error');
+                return;
+            }
+
+            updateStatus('Analyzing palm with Gemini 2.5 Flash Lite...', 'info');
+            showLoading();
+
+            try {
+                const response = await fetch('backend/api/palm_recognition.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'analyze',
+                        palm_image_data: capturedImage
+                    })
+                });
+
+                const result = await response.json();
+                displayResults(result);
+
+                if (result.success && result.isPalm) {
+                    updateStatus(`✅ Valid palm detected! Confidence: ${(result.confidence * 100).toFixed(2)}%`, 'success');
+                } else {
+                    updateStatus(`❌ ${result.message}`, 'error');
+                }
+            } catch (error) {
+                updateStatus('Error analyzing palm: ' + error.message, 'error');
+                hideLoading();
+            }
+        });
+
+        // Register palm
+        document.getElementById('registerBtn').addEventListener('click', async () => {
+            if (!capturedImage) {
+                updateStatus('Please capture an image first!', 'error');
+                return;
+            }
+
+            const userId = document.getElementById('userId').value;
+            if (!userId) {
+                updateStatus('Please enter a user ID!', 'error');
+                return;
+            }
+
+            updateStatus('Registering palm...', 'info');
+            showLoading();
+
+            try {
+                const response = await fetch('backend/api/palm_register.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        user_id: userId,
+                        palm_image_data: capturedImage
+                    })
+                });
+
+                const result = await response.json();
+                displayResults(result);
+
+                if (result.success) {
+                    updateStatus(`✅ Palm registered successfully! Scan ID: ${result.data.scan_id}`, 'success');
+                } else {
+                    updateStatus(`❌ Registration failed: ${result.message}`, 'error');
+                }
+            } catch (error) {
+                updateStatus('Error registering palm: ' + error.message, 'error');
+                hideLoading();
+            }
+        });
+
+        // Authenticate palm
+        document.getElementById('authenticateBtn').addEventListener('click', async () => {
+            if (!capturedImage) {
+                updateStatus('Please capture an image first!', 'error');
+                return;
+            }
+
+            const userId = document.getElementById('userId').value;
+            if (!userId) {
+                updateStatus('Please enter a user ID!', 'error');
+                return;
+            }
+
+            updateStatus('Authenticating palm...', 'info');
+            showLoading();
+
+            try {
+                const response = await fetch('backend/api/palm_authenticate.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        user_id: userId,
+                        palm_image_data: capturedImage,
+                        auth_type: 'login'
+                    })
+                });
+
+                const result = await response.json();
+                displayResults(result);
+
+                if (result.success && result.data.authenticated) {
+                    updateStatus(`✅ Authentication successful! Match score: ${result.data.match_score}%`, 'success');
+                } else {
+                    updateStatus(`❌ Authentication failed: ${result.message}`, 'error');
+                }
+            } catch (error) {
+                updateStatus('Error authenticating: ' + error.message, 'error');
+                hideLoading();
+            }
+        });
+
+        function updateStatus(message, type) {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = message;
+            statusEl.className = `status ${type}`;
+        }
+
+        function showLoading() {
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('analysisMetrics').innerHTML = '<div class="loading"><div class="spinner"></div><p>Processing...</p></div>';
+        }
+
+        function hideLoading() {
+            // Loading will be replaced by results
+        }
+
+        function displayResults(data) {
+            document.getElementById('results').style.display = 'block';
+
+            // Display analysis metrics
+            let metricsHTML = '';
+
+            if (data.confidence !== undefined) {
+                const confidence = (data.confidence * 100).toFixed(2);
+                metricsHTML += `
+                    <div class="metric">
+                        <span class="metric-label">Overall Confidence</span>
+                        <span class="metric-value">${confidence}%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${confidence}%">${confidence}%</div>
+                    </div>
+                `;
+            }
+
+            if (data.data && data.data.match_score !== undefined) {
+                const matchScore = data.data.match_score;
+                metricsHTML += `
+                    <div class="metric">
+                        <span class="metric-label">Match Score</span>
+                        <span class="metric-value">${matchScore}%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${matchScore}%">${matchScore}%</div>
+                    </div>
+                `;
+            }
+
+            document.getElementById('analysisMetrics').innerHTML = metricsHTML || '<p>No metrics available</p>';
+
+            // Display biometric analytics
+            let bioHTML = '';
+
+            if (data.analytics) {
+                const analytics = data.analytics;
+                for (let key in analytics) {
+                    if (typeof analytics[key] === 'object') continue;
+                    bioHTML += `
+                        <div class="metric">
+                            <span class="metric-label">${key.replace(/_/g, ' ').toUpperCase()}</span>
+                            <span class="metric-value">${analytics[key]}</span>
+                        </div>
+                    `;
+                }
+            }
+
+            if (data.data && data.data.analytics) {
+                const analytics = data.data.analytics;
+                for (let key in analytics) {
+                    if (typeof analytics[key] === 'object') continue;
+                    bioHTML += `
+                        <div class="metric">
+                            <span class="metric-label">${key.replace(/_/g, ' ').toUpperCase()}</span>
+                            <span class="metric-value">${analytics[key]}</span>
+                        </div>
+                    `;
+                }
+            }
+
+            document.getElementById('biometricMetrics').innerHTML = bioHTML || '<p>No biometric data available</p>';
+
+            // Display raw JSON
+            document.getElementById('jsonOutput').textContent = JSON.stringify(data, null, 2);
+        }
+    </script>
+</body>
+
+</html>

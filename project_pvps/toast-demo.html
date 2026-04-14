@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toast Notification Demo</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/toast.css">
+    <script src="js/toast.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .demo-container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .demo-btn {
+            padding: 15px 25px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .demo-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .demo-btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-success {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .btn-error {
+            background: #f44336;
+            color: white;
+        }
+
+        .btn-warning {
+            background: #ff9800;
+            color: white;
+        }
+
+        .btn-info {
+            background: #2196F3;
+            color: white;
+        }
+
+        .section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #eee;
+        }
+
+        .code-block {
+            background: #f8f8f8;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 10px 0;
+            border-left: 4px solid #2196F3;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .feature-list li:before {
+            content: '✅';
+            position: absolute;
+            left: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="demo-container">
+        <h1>🎉 Toast Notification System</h1>
+        <p class="subtitle">Beautiful in-page notifications instead of browser alerts</p>
+
+        <h2>Try It Out:</h2>
+        <div class="button-grid">
+            <button class="demo-btn btn-success" onclick="showSuccess('Registration completed successfully!')">
+                ✅ Success Toast
+            </button>
+            <button class="demo-btn btn-error" onclick="showError('Login failed. Invalid credentials.')">
+                ❌ Error Toast
+            </button>
+            <button class="demo-btn btn-warning" onclick="showWarning('Your session will expire in 5 minutes.')">
+                ⚠️ Warning Toast
+            </button>
+            <button class="demo-btn btn-info" onclick="showInfo('Please complete your profile to continue.')">
+                ℹ️ Info Toast
+            </button>
+        </div>
+
+        <div class="button-grid">
+            <button class="demo-btn btn-success" onclick="testMultiple()">
+                📚 Multiple Toasts
+            </button>
+            <button class="demo-btn btn-info" onclick="testLongMessage()">
+                📝 Long Message
+            </button>
+            <button class="demo-btn btn-warning" onclick="testOldAlert()">
+                🔄 Test Old alert()
+            </button>
+            <button class="demo-btn btn-error" onclick="testOldShowAlert()">
+                🔄 Test Old showAlert()
+            </button>
+        </div>
+
+        <div class="section">
+            <h2>✨ Features:</h2>
+            <ul class="feature-list">
+                <li>Appears INSIDE the website (top-right corner)</li>
+                <li>Auto-dismisses after 5-7 seconds</li>
+                <li>Manual close button (×)</li>
+                <li>Progress bar showing time remaining</li>
+                <li>Stacks multiple notifications</li>
+                <li>Fully responsive (mobile-friendly)</li>
+                <li>Dark mode support</li>
+                <li>Smooth slide-in/out animations</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>📝 Usage Examples:</h2>
+
+            <h3>Success Notification:</h3>
+            <div class="code-block">
+                showSuccess('Registration completed!');<br>
+                // OR<br>
+                alert('✅ Registration completed!');
+            </div>
+
+            <h3>Error Notification:</h3>
+            <div class="code-block">
+                showError('Login failed!');<br>
+                // OR<br>
+                alert('❌ Login failed!');
+            </div>
+
+            <h3>Warning Notification:</h3>
+            <div class="code-block">
+                showWarning('Session expiring soon!');<br>
+                // OR<br>
+                alert('⚠️ Session expiring soon!');
+            </div>
+
+            <h3>Info Notification:</h3>
+            <div class="code-block">
+                showInfo('Please verify your email.');<br>
+                // OR<br>
+                alert('ℹ️ Please verify your email.');
+            </div>
+
+            <h3>Custom Duration:</h3>
+            <div class="code-block">
+                showSuccess('Quick message!', 2000); // 2 seconds<br>
+                showError('Important error!', 10000); // 10 seconds
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Auto Type Detection:</h2>
+            <p>The system automatically detects notification type from message content:</p>
+            <ul class="feature-list">
+                <li>Contains "✅" or "success" → Green success toast</li>
+                <li>Contains "❌" or "error" or "failed" → Red error toast</li>
+                <li>Contains "⚠️" or "warning" → Orange warning toast</li>
+                <li>Everything else → Blue info toast</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>✅ Compatibility:</h2>
+            <p><strong>All existing code works automatically!</strong></p>
+            <p>The toast system overrides native <code>alert()</code>, so no code changes needed.</p>
+            <div class="code-block">
+                // Old code (still works!)<br>
+                alert('✅ Login successful!');<br>
+                showAlert('❌ Error message', 'error');<br>
+                <br>
+                // Automatically becomes beautiful toast notifications!
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function testMultiple() {
+            showSuccess('First notification!');
+            setTimeout(() => showInfo('Second notification!'), 500);
+            setTimeout(() => showWarning('Third notification!'), 1000);
+            setTimeout(() => showError('Fourth notification!'), 1500);
+        }
+
+        function testLongMessage() {
+            showInfo('This is a longer message to demonstrate how the toast notification handles multiple lines of text. It should wrap nicely and remain readable.');
+        }
+
+        function testOldAlert() {
+            alert('✅ This is using the old alert() function, but it shows as a toast!');
+        }
+
+        function testOldShowAlert() {
+            showAlert('This is using the old showAlert() function!', 'success');
+        }
+
+        // Show welcome message on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                showSuccess('Welcome to the Toast Notification Demo!');
+            }, 500);
+        });
+    </script>
+</body>
+
+</html>

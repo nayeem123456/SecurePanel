@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Security & Privacy - Palm Vein Payment System data protection and privacy measures">
+    <title>Security & Privacy - Palm Vein Payment System</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/navigation.css">
+
+    <!-- Theme Script (loaded early to prevent flash) -->
+    <script src="js/theme.js"></script>
+
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+            color: var(--color-secondary);
+            padding: var(--spacing-xl) 0;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            color: var(--color-secondary);
+        }
+
+        .security-icon {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .principle-card {
+            background: var(--color-secondary);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            margin-bottom: var(--spacing-lg);
+            border-left: 4px solid var(--color-success);
+        }
+
+        .principle-card h3 {
+            color: var(--color-primary);
+            margin-top: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="header-logo">
+                <div class="biometric-logo logo-medium">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M50 20 Q45 25, 45 35 L45 60 Q45 65, 50 70 Q55 65, 55 60 L55 35 Q55 25, 50 20 M35 30 Q30 32, 30 40 L30 55 Q30 60, 35 62 Q40 60, 40 55 L40 40 Q40 32, 35 30 M65 30 Q70 32, 70 40 L70 55 Q70 60, 65 62 Q60 60, 60 55 L60 40 Q60 32, 65 30 M25 45 Q22 47, 22 52 L22 58 Q22 61, 25 63 Q28 61, 28 58 L28 52 Q28 47, 25 45 M75 45 Q78 47, 78 52 L78 58 Q78 61, 75 63 Q72 61, 72 58 L72 52 Q72 47, 75 45"
+                            fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        <circle cx="50" cy="50" r="42" class="scan-ring" stroke-dasharray="8 4" />
+                    </svg>
+                </div>
+                <h1 class="header-title">Palm Vein Payment System</h1>
+            </a>
+
+            <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+                <span>☰</span>
+            </button>
+
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About System</a>
+                <a href="security.html" class="nav-link active">Security</a>
+                <a href="bank-enrollment.html" class="nav-link">Bank Enrollment</a>
+                <a href="user-login.html" class="nav-link">User Login</a>
+                <a href="merchant-login.html" class="nav-link">Merchant Login</a>
+                <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="security-icon">🔐</div>
+            <h1>Security & Privacy</h1>
+            <p>Our Commitment to Protecting Your Biometric Data</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="section">
+        <div class="container-narrow">
+
+            <!-- Introduction -->
+            <div class="alert alert-info mb-lg">
+                <h4>Privacy-First Biometric System</h4>
+                <p>
+                    The Palm Vein Payment System is designed with security and privacy at its core.
+                    Unlike traditional biometrics, palm vein patterns cannot be seen or copied,
+                    and our template-based storage ensures that raw biometric data never leaves the scanning device.
+                </p>
+            </div>
+
+            <!-- Template-Based Storage -->
+            <div class="principle-card">
+                <h3>🗃️ Template-Based Biometric Storage</h3>
+                <p>
+                    The system does <strong>not store raw palm vein images</strong>. Instead, we employ a sophisticated
+                    template extraction process:
+                </p>
+                <ol>
+                    <li>
+                        <strong>Image Capture:</strong> Near-infrared camera captures palm vein pattern during
+                        enrollment
+                    </li>
+                    <li>
+                        <strong>Feature Extraction:</strong> Advanced algorithms identify unique characteristics from
+                        the vein pattern
+                    </li>
+                    <li>
+                        <strong>Template Generation:</strong> Extracted features are converted into an encrypted
+                        mathematical template (hash)
+                    </li>
+                    <li>
+                        <strong>Original Deletion:</strong> The original palm image is immediately discarded and
+                        <em>never stored</em>
+                    </li>
+                    <li>
+                        <strong>Secure Storage:</strong> Only the encrypted template is saved in the database, with
+                        additional encryption layers
+                    </li>
+                </ol>
+                <p class="mt-md">
+                    <strong>Critical Advantage:</strong> Even if attackers gain access to the database, they cannot
+                    reverse-engineer
+                    the template back into a usable palm vein image. The template is a one-way mathematical
+                    representation,
+                    making it useless for identity theft or unauthorized access.
+                </p>
+            </div>
+
+            <!-- Webcam Usage in This Demo -->
+            <div class="principle-card">
+                <h3>📹 Webcam Usage in This Demonstration</h3>
+                <p>
+                    This frontend prototype utilizes your device's <strong>webcam</strong> to simulate the palm vein
+                    scanning
+                    process. Here's what you need to know:
+                </p>
+
+                <h4>How This Demo Works</h4>
+                <ul>
+                    <li><strong>Browser Camera Access:</strong> The system requests permission to access your webcam
+                        using standard
+                        browser APIs</li>
+                    <li><strong>Live Video Preview:</strong> During enrollment and login, you'll see a live video feed
+                        from your
+                        camera</li>
+                    <li><strong>Temporary Usage:</strong> The camera activates for approximately 3 seconds during each
+                        scan</li>
+                    <li><strong>No Image Capture:</strong> <em>No frames, images, or video are captured, saved, or
+                            transmitted</em></li>
+                    <li><strong>Immediate Cleanup:</strong> The camera stream is immediately stopped and released after
+                        scanning</li>
+                </ul>
+
+                <h4 class="mt-md">Real-World Palm Vein Systems</h4>
+                <p>
+                    In production banking environments, palm vein authentication uses specialized hardware:
+                </p>
+                <ul>
+                    <li><strong>Near-Infrared Cameras:</strong> Dedicated sensors that can "see" subcutaneous vein
+                        patterns</li>
+                    <li><strong>Controlled Lighting:</strong> Specialized infrared LED illumination for consistent
+                        imaging</li>
+                    <li><strong>Liveness Detection:</strong> Detects blood flow to prevent spoofing with photographs or
+                        replicas</li>
+                    <li><strong>Secure Hardware:</strong> Biometric data processed within tamper-resistant modules</li>
+                    <li><strong>No Visible Light:</strong> Standard webcams cannot capture vein patterns as they lack
+                        infrared
+                        capability</li>
+                </ul>
+
+                <div class="alert alert-info mt-md" style="margin-bottom: 0;">
+                    <strong>⚠️ Academic Simulation</strong><br>
+                    This demo uses your webcam purely for <em>visual effect and user experience simulation</em>.
+                    In a real palm vein payment system, specialized infrared sensors would be used instead of standard
+                    cameras,
+                    and actual biometric template extraction would occur.
+                </div>
+            </div>
+
+            <!-- Privacy-First Design -->
+            <div class="principle-card">
+                <h3>🛡️ Privacy-First Design Principles</h3>
+
+                <h4>Data Minimization</h4>
+                <p>
+                    We collect and retain only the minimum data necessary for system operation:
+                </p>
+                <ul>
+                    <li>Biometric template (not raw image)</li>
+                    <li>User identification number (account ID, phone number)</li>
+                    <li>Transaction metadata (amount, merchant, timestamp)</li>
+                </ul>
+                <p>
+                    <strong>No unnecessary personal data</strong> such as emails, addresses, or browsing behavior is
+                    collected or stored.
+                </p>
+
+                <h4 class="mt-lg">Purpose Limitation</h4>
+                <p>
+                    Biometric data is used <strong>exclusively for payment authentication</strong>. Templates are never:
+                </p>
+                <ul>
+                    <li>Shared with third-party advertisers or data brokers</li>
+                    <li>Used for marketing, profiling, or behavioral analysis</li>
+                    <li>Sold or transferred to external entities</li>
+                    <li>Repurposed for surveillance or tracking</li>
+                </ul>
+
+                <h4 class="mt-lg">User Consent & Control</h4>
+                <p>
+                    Users maintain complete control over their biometric data:
+                </p>
+                <ul>
+                    <li><strong>Explicit Consent:</strong> Enrollment requires informed consent with clear explanation
+                        of data usage</li>
+                    <li><strong>Right to Deletion:</strong> Users can request permanent deletion of their biometric
+                        template at any time</li>
+                    <li><strong>Transparency:</strong> Users can view when and where their biometric data was used for
+                        authentication</li>
+                    <li><strong>No Coercion:</strong> Alternative payment methods remain available for those who prefer
+                        not to use biometrics</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- Account Recovery & Updates -->
+        <div class="principle-card">
+            <h3>🔄 Account Recovery & Updates</h3>
+
+            <h4>Bank-Controlled Recovery</h4>
+            <p>
+                To prevent unauthorized account takeovers, password recovery and biometric re-enrollment logic
+                <strong>is not exposed online</strong>. In a real-world implementation:
+            </p>
+            <ul>
+                <li><strong>No Online Password Reset:</strong> Users cannot reset passwords via email or SMS, preventing
+                    phishing attacks.</li>
+                <li><strong>Physical Verification:</strong> Recovery requires visiting a bank branch with valid ID
+                    proof.</li>
+                <li><strong>Biometric Integrity:</strong> Re-enrollment (e.g., after injury) must be supervised by bank
+                    officials.</li>
+            </ul>
+
+            <h4 class="mt-lg">Prototype Limitations</h4>
+            <p>
+                As this is an academic prototype, recovery flows are demonstrated conceptually. The system does not
+                process:
+            </p>
+            <ul>
+                <li>OTP generation or validation</li>
+                <li>Email/SMS recovery links</li>
+                <li>Self-service profile updates</li>
+            </ul>
+            <p>
+                This design choice highlights the <strong>maximum security</strong> approach suitable for high-value
+                financial biometric systems.
+            </p>
+        </div>
+
+        <!-- Encryption & Security Measures -->
+        <div class="principle-card">
+            <h3>🔒 Encryption & Security Measures</h3>
+
+            <p>
+                Multiple layers of security protect biometric data throughout its lifecycle:
+            </p>
+
+            <h4>1. Data in Transit</h4>
+            <ul>
+                <li><strong>TLS 1.3 Encryption:</strong> All communication between devices and servers uses latest
+                    encryption standards</li>
+                <li><strong>Certificate Pinning:</strong> Prevents man-in-the-middle attacks</li>
+                <li><strong>API Authentication:</strong> Requests validated using secure tokens</li>
+            </ul>
+
+            <h4 class="mt-md">2. Data at Rest</h4>
+            <ul>
+                <li><strong>AES-256 Encryption:</strong> Database encryption using bank-grade cryptographic
+                    standards</li>
+                <li><strong>Key Management:</strong> Encryption keys stored in hardware security modules (HSMs)</li>
+                <li><strong>Salted Hashing:</strong> Biometric templates further hashed with unique salts</li>
+            </ul>
+
+            <h4 class="mt-md">3. Access Controls</h4>
+            <ul>
+                <li><strong>Role-Based Access:</strong> Only authorized personnel can access specific data
+                    components</li>
+                <li><strong>Audit Logging:</strong> Every database access attempt is logged with timestamp and user
+                    credentials</li>
+                <li><strong>Two-Factor Authentication:</strong> Administrative access requires multiple verification
+                    factors</li>
+                <li><strong>Least Privilege:</strong> Systems granted minimum permissions necessary for operation
+                </li>
+            </ul>
+        </div>
+
+        <!-- Regulatory Compliance -->
+        <div class="principle-card">
+            <h3>⚖️ Legal & Ethical Considerations</h3>
+
+            <h4>Regulatory Alignment</h4>
+            <p>
+                In a production environment, the system would comply with:
+            </p>
+            <ul>
+                <li><strong>GDPR (General Data Protection Regulation):</strong> For European users, ensuring data
+                    subject rights</li>
+                <li><strong>PCI-DSS (Payment Card Industry Data Security Standard):</strong> Payment processing
+                    security requirements</li>
+                <li><strong>Local Banking Regulations:</strong> Compliance with Reserve Bank guidelines and
+                    financial data protection laws</li>
+                <li><strong>Biometric Data Protection Laws:</strong> Adherence to jurisdiction-specific biometric
+                    privacy regulations</li>
+            </ul>
+
+            <h4 class="mt-lg">Ethical Biometric Use</h4>
+            <p>
+                The system is designed around ethical principles:
+            </p>
+            <ul>
+                <li><strong>Informed Consent:</strong> Users fully understand what data is collected and how it's
+                    used</li>
+                <li><strong>Non-Discrimination:</strong> System accessible to users regardless of physical
+                    conditions (alternative methods available)</li>
+                <li><strong>Transparency:</strong> Biometric processing algorithm details made available for
+                    independent audit</li>
+                <li><strong>Accountability:</strong> Clear chain of responsibility for data protection and breach
+                    response</li>
+            </ul>
+        </div>
+
+        <!-- Security Against Attacks -->
+        <div class="principle-card">
+            <h3>🚨 Protection Against Common Attacks</h3>
+
+            <table class="table mt-md">
+                <thead>
+                    <tr>
+                        <th>Attack Type</th>
+                        <th>Mitigation Strategy</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Spoofing (Fake Palm)</strong></td>
+                        <td>Liveness detection verifies blood flow; near-infrared imaging requires living tissue
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Replay Attacks</strong></td>
+                        <td>Timestamps and nonces prevent reuse of captured authentication data</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Database Breach</strong></td>
+                        <td>Encrypted templates useless without decryption keys stored in separate HSMs</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Man-in-the-Middle</strong></td>
+                        <td>TLS encryption and certificate pinning secure all communications</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Brute Force</strong></td>
+                        <td>Rate limiting, account lockouts, and CAPTCHA after failed attempts</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Social Engineering</strong></td>
+                        <td>User education and mandatory authentication for all critical actions</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Incident Response -->
+        <div class="principle-card">
+            <h3>🚑 Incident Response & Breach Protocol</h3>
+            <p>
+                In the event of a security incident, the following protocols activate:
+            </p>
+            <ol>
+                <li><strong>Immediate Containment:</strong> Affected systems isolated within minutes of detection
+                </li>
+                <li><strong>User Notification:</strong> Impacted users informed within 72 hours, as required by
+                    regulations</li>
+                <li><strong>Forensic Investigation:</strong> Third-party security experts conduct comprehensive
+                    breach analysis</li>
+                <li><strong>Remediation:</strong> Vulnerabilities patched and affected templates regenerated</li>
+                <li><strong>Regulatory Reporting:</strong> Breach details reported to data protection authorities
+                </li>
+                <li><strong>Post-Incident Review:</strong> Security measures enhanced based on lessons learned</li>
+            </ol>
+        </div>
+
+        <!-- Simulated Environment Disclaimer -->
+        <div class="alert alert-warning mt-xl">
+            <h4>⚠️ Simulated Academic Environment</h4>
+            <p>
+                <strong>Important:</strong> This is a frontend demonstration for educational purposes.
+                No actual biometric scanning or data processing occurs. All security measures described above
+                represent the design specifications for a real-world implementation.
+            </p>
+            <p>
+                In this demonstration:
+            </p>
+            <ul>
+                <li>Data is stored in browser localStorage (not secure for production)</li>
+                <li>Palm scans are simulated with time delays</li>
+                <li>No encryption is applied to demo data</li>
+                <li>No backend servers or databases are involved</li>
+            </ul>
+            <p>
+                <strong>This project showcases the user interface and workflow</strong> that would be employed
+                in a secure, production-grade palm vein payment system with all the security measures described
+                above.
+            </p>
+        </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div class="biometric-logo logo-small">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M50 20 Q45 25, 45 35 L45 60 Q45 65, 50 70 Q55 65, 55 60 L55 35 Q55 25, 50 20 M35 30 Q30 32, 30 40 L30 55 Q30 60, 35 62 Q40 60, 40 55 L40 40 Q40 32, 35 30 M65 30 Q70 32, 70 40 L70 55 Q70 60, 65 62 Q60 60, 60 55 L60 40 Q60 32, 65 30 M25 45 Q22 47, 22 52 L22 58 Q22 61, 25 63 Q28 61, 28 58 L28 52 Q28 47, 25 45 M75 45 Q78 47, 78 52 L78 58 Q78 61, 75 63 Q72 61, 72 58 L72 52 Q72 47, 75 45"
+                            fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        <circle cx="50" cy="50" r="42" class="scan-ring" stroke-dasharray="8 4" />
+                    </svg>
+                </div>
+            </div>
+
+            <p class="footer-text">
+                <strong>Palm Vein Payment System</strong><br>
+                Major Project - Bank Biometric Payment Portal
+            </p>
+
+            <p class="footer-text">
+                A demonstration of secure palm vein biometric authentication<br>
+                for contactless payment processing in banking systems.
+            </p>
+
+            <div class="footer-copyright">
+                &copy; 2024 Palm Vein Payment System. Academic Project - For Educational Purposes Only.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/common.js"></script>
+</body>
+
+</html>
